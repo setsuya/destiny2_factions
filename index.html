@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Destiny 2 Faction Checker</title>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/png" sizes="32x32" href="img/app_icon_192.png">
+		<link rel="manifest" href="manifest.json">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+		<script type="text/JavaScript" src="js/jquery.js"></script>
+		<script type="text/JavaScript" src="js/scripts.js"></script>
+	</head>
+	<body onload="randomIcon()">
+		<div id="app_info"><p>Destiny 2 Faction Checker</p><img id="language_flag" src="img/en-US.png" onclick="changeLanguage()" /></div>
+		<div id="search_player">
+			<div id="network_selector" data-network="2" onclick="changeNetwork()"><div id="networks"><div id="network_psn"><img src="img/ps_logo.png" /></div><div id="network_xbox_live"><img src="img/xbox_logo.png" /></div></div></div><input type="text" id="player_name" placeholder="Username" /><div id="search_profile" onclick="searchPlayer()"><img src="img/search.png" /></div>
+		</div>
+		<div id="warning"><p>Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says "<b>Show my non-equipped Inventory</b>".</p><p>After this is done, enter your information again and enjoy.</p></div>
+		<p class="section_title">/<span id="string_characters"></span></p>
+		<div id="char_list"></div>
+		<div id="char_info">
+			<p class="section_title">/<span id="string_factions"></span></p>
+			<div id="prog_factions"></div>
+		</div>
+	</body>
+</html>
