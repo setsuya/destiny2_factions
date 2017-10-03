@@ -250,6 +250,26 @@ body {
 	text-shadow: 1px 1px 0 #000;
 }
 
+.level_progression {
+	box-sizing: border-box;
+	position: relative;
+	padding: 0 5px;
+	z-index: 1;
+}
+
+.level_progression > hr {
+	box-sizing: border-box;
+	position: relative;
+	margin: 5px 0 0 0;
+	padding: 0;
+	height: 5px;
+	width: 100%;
+	border: 0;
+	background-color: #6b6;
+	box-shadow: 1px 1px 0 #000;
+	vertical-align: bottom;
+}
+
 .light_symbol {
 	font-size: 18px;
 }
@@ -366,4 +386,26 @@ body {
 	text-transform: uppercase;
 	letter-spacing: 4px;
 	font: 14px monospace;
+}
+
+#ramen_donate {
+	box-sizing: border-box;
+	display: inline-block;
+	margin-top: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#ramen_donate > img {
+	border-radius: 50%;
+}
+
+#ramen_donate > p {
+	box-sizing: border-box;
+	position: relative;
+	padding: 0;
+	margin: 5px 0;
+	text-align: center;
+	color: #999;
+	font: 12px monospace;
 }

@@ -3,11 +3,11 @@ $(document).ready(function(){
 		lang = localStorage.lang;
 		$("#language_flag").attr("src", "img/" + lang + ".png");
 	}else{
-		lang = navigator.language;
+		lang = "en-US";
 		$("#language_flag").attr("src", "img/" + lang + ".png");
 	}
 
-	$(".section_title > span").each(function(){
+	$(".section_title > span, #ramen_donate > p").each(function(){
 		$(this).text(langs[lang][$(this).attr("id")]);
 	});
 });
@@ -46,7 +46,8 @@ var langs = {
 		    "string_awoken": "Awoken", 
 		   "string_refresh": "Refresh", 
 		     "string_error": "User not found or error occurred.<br />Please try again.", 
-		   "string_warning": "Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quote;<b>Show my non-equipped Inventory</b>&quote;.</p><p>After this is done, enter your information again and enjoy."
+		   "string_warning": "Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quote;<b>Show my non-equipped Inventory</b>&quote;.</p><p>After this is done, enter your information again and enjoy.", 
+		    "string_donate": "PayPal me some spicy ramen!"
 		
 	}, 
 	"pt-BR": {
@@ -64,7 +65,8 @@ var langs = {
 		    "string_awoken": "Desperto", 
 		   "string_refresh": "Atualizar", 
 		     "string_error": "Usuário não encontrado ou erro ocorrido.<br />Por favor tente novamente.", 
-		   "string_warning": "Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quote;<b>Mostrar meu Inventário não equipado</b>&quote;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite."
+		   "string_warning": "Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quote;<b>Mostrar meu Inventário não equipado</b>&quote;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite.", 
+		    "string_donate": "Me pague um ramen apimentado pelo PayPal!"
 	}
 };
 
@@ -142,17 +144,17 @@ function getCharacter(membership_id, membership_type, character_id){
 		beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 		success: function(data){
 			character = data.Response.character.data;
-			showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath);
+			showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath, character.percentToNextLevel);
 		}
 	});
 }
 
-function showCharacterInfoBanner(membership_type, membership_id, character_id, character_level, character_power, character_class, character_race, character_gender, emblem_image, background_image){
+function showCharacterInfoBanner(membership_type, membership_id, character_id, character_level, character_power, character_class, character_race, character_gender, emblem_image, background_image, next_level_progression){
 	gender_list = [langs[lang].string_male, langs[lang].string_female];
 	class_list = [langs[lang].string_titan, langs[lang].string_hunter, langs[lang].string_warlock];
 	race_list = [langs[lang].string_human, langs[lang].string_awoken, langs[lang].string_exo];
 
-	character = "<div class=\"character\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"http://bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p></div>";
+	character = "<div class=\"character\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"http://bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression\"><hr style=\"width: " + next_level_progression + "%\" /></div></div>";
 
 	$(character).appendTo("#char_list");
 }
@@ -261,27 +263,27 @@ function factionXP(){
 					items = data.Response.profileInventory.data.items;
 
 					faction_items = {
-						1505278293: {"xp": 100, "faction": 24856709},   //Callus Token
-						 885593286: {"xp": 100, "faction": 469305170},  //Emissary Token
-						3899548068: {"xp": 100, "faction": 611314723},  //Vanguard Token
-						 183980811: {"xp": 100, "faction": 697030790},  //Crucible Token
-						3825769808: {"xp": 100, "faction": 828982195},  //Io Token 
-						3756389242: {"xp": 50,  "faction": 828982195},  //Phaseglass Spire
-						1305274547: {"xp": 100, "faction": 828982195},  //Phaseglass Needle
-						 685157383: {"xp": 75,  "faction": 1021210278}, //Gunsmith Materials
-						3201839676: {"xp": 100, "faction": 1660497607}, //Nessus Token
-						2949414982: {"xp": 50,  "faction": 1660497607}, //Quantized Datalattice
-						3487922223: {"xp": 100, "faction": 1660497607}, //Microphasic Datalattice
-						3957264072: {"xp": 100, "faction": 3231773039}, //Vanguard Research Token
-						 494493680: {"xp": 100, "faction": 4196149087}, //Archology Token
-						 461171930: {"xp": 50,  "faction": 4196149087}, //Alkane Spores
-						2014411539: {"xp": 100, "faction": 4196149087}, //Alkane Dust
-						2640973641: {"xp": 100, "faction": 4235119312}, //EDZ Token
-						 478751073: {"xp": 50,  "faction": 4235119312}, //Dusklight Crystal
-						 950899352: {"xp": 100, "faction": 4235119312}, //Dusklight Shard
-						1270564331: {"xp": 100, "faction": 1714509342}, //FWC Token
-						2270228604: {"xp": 100, "faction": 2105209711}, //New Monarchy Token
-						2959556799: {"xp": 100, "faction": 3398051042}  //Dead Orbit Token
+						1505278293: {"xp": 100,  "faction": 24856709},   //Callus Token
+						 885593286: {"xp": 100,  "faction": 469305170},  //Emissary Token
+						3899548068: {"xp": 100,  "faction": 611314723},  //Vanguard Token
+						 183980811: {"xp": 100,  "faction": 697030790},  //Crucible Token
+						3825769808: {"xp": 100,  "faction": 828982195},  //Io Token 
+						3756389242: {"xp": 50,   "faction": 828982195},  //Phaseglass Spire
+						1305274547: {"xp": 100,  "faction": 828982195},  //Phaseglass Needle
+						 685157383: {"xp": 75,   "faction": 1021210278}, //Gunsmith Materials
+						3201839676: {"xp": 100,  "faction": 1660497607}, //Nessus Token
+						2949414982: {"xp": 50,   "faction": 1660497607}, //Quantized Datalattice
+						3487922223: {"xp": 100,  "faction": 1660497607}, //Microphasic Datalattice
+						3957264072: {"xp": 1000, "faction": 3231773039}, //Vanguard Research Token
+						 494493680: {"xp": 100,  "faction": 4196149087}, //Archology Token
+						 461171930: {"xp": 50,   "faction": 4196149087}, //Alkane Spores
+						2014411539: {"xp": 100,  "faction": 4196149087}, //Alkane Dust
+						2640973641: {"xp": 100,  "faction": 4235119312}, //EDZ Token
+						 478751073: {"xp": 50,   "faction": 4235119312}, //Dusklight Crystal
+						 950899352: {"xp": 100,  "faction": 4235119312}, //Dusklight Shard
+						1270564331: {"xp": 100,  "faction": 1714509342}, //FWC Token
+						2270228604: {"xp": 100,  "faction": 2105209711}, //New Monarchy Token
+						2959556799: {"xp": 100,  "faction": 3398051042}  //Dead Orbit Token
 					};
 
 					for(item in items){
