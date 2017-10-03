@@ -191,7 +191,7 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 										outline_class = " faction_outline";
 									}
 
-									factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"" + data.image + "\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"level_number\">" + (factions[data.id].level) + "</div><div class=\"faction_xp\"><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div></div></div></div>";
+									factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"level_number\">" + (factions[data.id].level) + "</div><div class=\"faction_xp\"><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div></div></div></div>";
 									$("#prog_factions").html(factions_result);
 								}
 							});
