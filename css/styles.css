@@ -190,6 +190,7 @@ body {
 
 #interval_info {
 	box-sizing: border-box;
+	display: none;
 	margin-top: 5px;
 	padding: 0;
 	font: italic 12px Verdana, sans-serif;

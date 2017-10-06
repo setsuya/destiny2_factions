@@ -18,7 +18,9 @@ $(document).ready(function(){
 
 var lang = "";
 var repeat_timer = false;
+var timer_start_time = 0;
 var timer_id = 0;
+var timer_time = 300000;
 
 var factions_xp = {
 	  24856709: 0, //Leviathan
@@ -87,6 +89,21 @@ function randomIcon(){
 	$("[rel='icon']").attr("href", "img/favicons/" + icons[random_num] + ".png");
 }
 
+function createTimeout(timer_value){
+	clearTimeout(timer_id);
+	timer_id = setTimeout(function(){$("#reload_info").click();}, timer_value);
+}
+
+function checkRefresh(){
+	timer_refresh_time = new Date().getTime();
+
+	if(((timer_refresh_time - timer_start_time) >= timer_time) && (repeat_timer == true)){
+		$("#reload_info").click();
+	}else{
+		createTimeout((timer_refresh_time - timer_start_time));
+	}
+}
+
 function changeLanguage(){
 	if(lang == "en-US"){
 		lang = "pt-BR";
@@ -118,7 +135,8 @@ function toggleAutoReload(toggle_value, membership_type, membership_id, characte
 		repeat_timer = false;
 	}else{
 		$("#auto_reload").attr("class", "repeat_on").attr("onclick", script_text.replace("on", "off"));
-		timer_id = setTimeout(loadCharacterData, 300000, membership_type, membership_id, character_id, character);
+		timer_start_time = new Date().getTime();
+		createTimeout(timer_time);
 		$("#interval_info").text(langs[lang].string_refresh_time).slideToggle("medium");
 		repeat_timer = true;
 	}
@@ -204,9 +222,10 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 
 					if(repeat_timer){
 						factions_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
-						timer_id = setTimeout(loadCharacterData, 300000, membership_type, membership_id, character_id, character);
+						timer_start_time = new Date().getTime();
+						createTimeout(timer_time);
 					}else{
-						factions_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
+						factions_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\"></p>";
 					}
 
 					for(faction in factions){
