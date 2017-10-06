@@ -7,12 +7,18 @@ $(document).ready(function(){
 		$("#language_flag").attr("src", "img/" + lang + ".png");
 	}
 
-	$(".section_title > span, #ramen_donate > p").each(function(){
-		$(this).text(langs[lang][$(this).attr("id")]);
+	if(localStorage.repeat_timer){
+		repeat_timer = localStorage.repeat_timer === "true";
+	}
+
+	$(".section_title > span, #ramen_donate > p, #string_warning").each(function(){
+		$(this).html(langs[lang][$(this).attr("id")]);
 	});
 });
 
 var lang = "";
+var repeat_timer = false;
+var timer_id = 0;
 
 var factions_xp = {
 	  24856709: 0, //Leviathan
@@ -32,41 +38,45 @@ var factions_xp = {
 
 var langs = {
 	"en-US": {
-		"string_characters": "Characters", 
-		  "string_factions": "Factions", 
-		   "string_loading": "Loading...", 
-		    "string_hunter": "Hunter", 
-		     "string_titan": "Titan", 
-		   "string_warlock": "Warlock", 
-		     "string_level": "Level", 
-		      "string_male": "Male", 
-		    "string_female": "Female", 
-		       "string_exo": "Exo", 
-		     "string_human": "Human", 
-		    "string_awoken": "Awoken", 
-		   "string_refresh": "Refresh", 
-		     "string_error": "User not found or error occurred.<br />Please try again.", 
-		   "string_warning": "Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quote;<b>Show my non-equipped Inventory</b>&quote;.</p><p>After this is done, enter your information again and enjoy.", 
-		    "string_donate": "PayPal me some spicy ramen!"
+		  "string_characters": "Characters", 
+		    "string_factions": "Factions", 
+		     "string_loading": "Loading...", 
+		      "string_hunter": "Hunter", 
+		       "string_titan": "Titan", 
+		     "string_warlock": "Warlock", 
+		       "string_level": "Level", 
+		        "string_male": "Male", 
+		      "string_female": "Female", 
+		         "string_exo": "Exo", 
+		       "string_human": "Human", 
+		      "string_awoken": "Awoken", 
+		     "string_refresh": "Refresh", 
+		"string_auto_refresh": "Auto", 
+		"string_refresh_time": "(Refreshing automatically every 5 minutes.)", 
+		       "string_error": "User not found or error occurred.<br />Please try again.", 
+		     "string_warning": "<p>Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quot;<b>Show my non-equipped Inventory</b>&quot;.</p><p>After this is done, enter your information again and enjoy.</p>", 
+		      "string_donate": "PayPal me some spicy ramen!"
 		
 	}, 
 	"pt-BR": {
-		"string_characters": "Personagens", 
-		  "string_factions": "Facções", 
-		   "string_loading": "Carregando...", 
-		    "string_hunter": "Caçador", 
-		     "string_titan": "Titã", 
-		   "string_warlock": "Arcano", 
-		     "string_level": "Nível", 
-		      "string_male": "Macho", 
-		    "string_female": "Fêmea", 
-		       "string_exo": "Exo", 
-		     "string_human": "Humano", 
-		    "string_awoken": "Desperto", 
-		   "string_refresh": "Atualizar", 
-		     "string_error": "Usuário não encontrado ou erro ocorrido.<br />Por favor tente novamente.", 
-		   "string_warning": "Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quote;<b>Mostrar meu Inventário não equipado</b>&quote;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite.", 
-		    "string_donate": "Me pague um ramen apimentado pelo PayPal!"
+		  "string_characters": "Personagens", 
+		    "string_factions": "Facções", 
+		     "string_loading": "Carregando...", 
+		      "string_hunter": "Caçador", 
+		       "string_titan": "Titã", 
+		     "string_warlock": "Arcano", 
+		       "string_level": "Nível", 
+		        "string_male": "Macho", 
+		      "string_female": "Fêmea", 
+		         "string_exo": "Exo", 
+		       "string_human": "Humano", 
+		      "string_awoken": "Desperto", 
+		     "string_refresh": "Atualizar", 
+		"string_auto_refresh": "Auto", 
+		"string_refresh_time": "(Atualizando automaticamente a cada 5 minutos.)", 
+		       "string_error": "Usuário não encontrado ou erro ocorrido.<br />Por favor tente novamente.", 
+		     "string_warning": "<p>Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quot;<b>Mostrar meu Inventário não equipado</b>&quot;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite.</p>", 
+		      "string_donate": "Me pague um ramen apimentado pelo PayPal!"
 	}
 };
 
@@ -96,6 +106,24 @@ function changeNetwork(){
 		$("#networks").animate({"left": "0"});
 		$("#network_selector").attr("data-network", "2");
 	}
+}
+
+function toggleAutoReload(toggle_value, membership_type, membership_id, character_id, character){
+	script_text = $("#auto_reload").attr("onclick");
+
+	if(toggle_value == "off"){
+		$("#auto_reload").attr("class", "repeat_off").attr("onclick", script_text.replace("off", "on"));
+		clearTimeout(timer_id);
+		$("#interval_info").slideToggle("medium", function(){$(this).text("");});
+		repeat_timer = false;
+	}else{
+		$("#auto_reload").attr("class", "repeat_on").attr("onclick", script_text.replace("on", "off"));
+		timer_id = setTimeout(loadCharacterData, 300000, membership_type, membership_id, character_id, character);
+		$("#interval_info").text(langs[lang].string_refresh_time).slideToggle("medium");
+		repeat_timer = true;
+	}
+
+	localStorage.repeat_timer = repeat_timer;
 }
 
 function searchPlayer(){
@@ -173,6 +201,13 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 				success: function(data){
 					factions = data.Response.progressions.data.factions;
 					factions_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_refresh + "</p></div>";
+
+					if(repeat_timer){
+						factions_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
+						timer_id = setTimeout(loadCharacterData, 300000, membership_type, membership_id, character_id, character);
+					}else{
+						factions_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
+					}
 
 					for(faction in factions){
 						$.when(getFactionInfo(faction))
@@ -258,7 +293,7 @@ function factionXP(){
 			beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 			success: function(data){
 				if("data" in data.Response.profileInventory){
-					$("#warning").slideUp();
+					$("#string_warning").slideUp();
 
 					items = data.Response.profileInventory.data.items;
 
@@ -294,7 +329,7 @@ function factionXP(){
 						}
 					}
 				}else{
-					$("#warning").slideDown();
+					$("#string_warning").slideDown();
 				}
 			}
 		});
