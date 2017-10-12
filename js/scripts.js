@@ -35,7 +35,8 @@ var factions_xp = {
 	4235119312: 0, //Dead Zone Scout
 	1714509342: 0, //Future War Cult
 	2105209711: 0, //New Monarchy
-	3398051042: 0  //Dead Orbit
+	3398051042: 0, //Dead Orbit
+	1761642340: 0  //Iron Banner
 };
 
 var langs = {
@@ -83,8 +84,8 @@ var langs = {
 };
 
 function randomIcon(){
-	icons = ["24856709", "469305170", "611314723", "697030790", "1021210278", "1714509342", "2105209711", "3231773039", "3398051042"];
-	random_num = Math.floor(Math.random() * (8 + 1));
+	icons = ["24856709", "469305170", "611314723", "697030790", "1021210278", "1714509342", "2105209711", "3231773039", "3398051042", "1761642340"];
+	random_num = Math.floor(Math.random() * icons.length);
 	
 	$("[rel='icon']").attr("href", "img/favicons/" + icons[random_num] + ".png");
 }
@@ -97,10 +98,12 @@ function createTimeout(timer_value){
 function checkRefresh(){
 	timer_refresh_time = new Date().getTime();
 
-	if(((timer_refresh_time - timer_start_time) >= timer_time) && (repeat_timer == true)){
-		$("#reload_info").click();
-	}else{
-		createTimeout((timer_refresh_time - timer_start_time));
+	if(repeat_timer == true){
+		if((timer_refresh_time - timer_start_time) >= timer_time){
+			$("#reload_info").click();
+		}else{
+			createTimeout((timer_refresh_time - timer_start_time));
+		}
 	}
 }
 
@@ -200,7 +203,7 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	class_list = [langs[lang].string_titan, langs[lang].string_hunter, langs[lang].string_warlock];
 	race_list = [langs[lang].string_human, langs[lang].string_awoken, langs[lang].string_exo];
 
-	character = "<div class=\"character\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"http://bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression\"><hr style=\"width: " + next_level_progression + "%\" /></div></div>";
+	character = "<div class=\"character\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression\"><hr style=\"width: " + next_level_progression + "%\" /></div></div>";
 
 	$(character).appendTo("#char_list");
 }
@@ -233,6 +236,7 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 							.then(function(data){
 								if(!data.redacted){
 									outline_class = "";
+									extra_levels = "";
 
 									next_level_percentage = ((factions[data.id].progressToNextLevel / factions[data.id].nextLevelAt) * 100).toFixed(2);
 
@@ -241,11 +245,17 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 									remaining_experience = ((faction_info.getFactionXP(data.id) / factions[data.id].nextLevelAt) * 100).toFixed(2);
 									
 									if((parseFloat(remaining_experience) + parseFloat(next_level_percentage)) >= 100.00){
+										extra_experience = (parseFloat(remaining_experience) + parseFloat(next_level_percentage)) - 100.00;
+
+										if(extra_experience > 100.00){
+											extra_levels = "&nbsp;+" + Math.floor(extra_experience / 100.00).toString();
+										}
+
 										remaining_experience = (100.00 - parseFloat(next_level_percentage)).toFixed(2);
 										outline_class = " faction_outline";
 									}
 
-									factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"level_number\">" + (factions[data.id].level) + "</div><div class=\"faction_xp\"><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div></div></div></div>";
+									factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"faction_xp_extra_left\"><div class=\"level_number\">" + (factions[data.id].level) + "</div></div><div class=\"faction_xp\"><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"faction_xp_extra_right\"><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div><div class=\"extra_levels\">" + extra_levels + "</div></div></div></div></div>";
 									$("#prog_factions").html(factions_result);
 								}
 							});
@@ -303,7 +313,8 @@ function factionXP(){
 			4235119312: 0, //Dead Zone Scout
 			1714509342: 0, //Future War Cult
 			2105209711: 0, //New Monarchy
-			3398051042: 0  //Dead Orbit
+			3398051042: 0, //Dead Orbit
+			1761642340: 0  //Iron Banner
 		};
 
 		return $.ajax({
@@ -337,7 +348,8 @@ function factionXP(){
 						 950899352: {"xp": 100,  "faction": 4235119312}, //Dusklight Shard
 						1270564331: {"xp": 100,  "faction": 1714509342}, //FWC Token
 						2270228604: {"xp": 100,  "faction": 2105209711}, //New Monarchy Token
-						2959556799: {"xp": 100,  "faction": 3398051042}  //Dead Orbit Token
+						2959556799: {"xp": 100,  "faction": 3398051042}, //Dead Orbit Token
+						1873857625: {"xp": 100,  "faction": 1761642340}  //Iron Banner Token
 					};
 
 					for(item in items){

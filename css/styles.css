@@ -383,11 +383,17 @@ body {
 	display: inline-block;
 }
 
+.extra_levels {
+	box-sizing: border-box;
+	display: inline-block;
+	font-weight: bold;
+}
+
 .faction_xp {
 	box-sizing: border-box;
 	display: inline-block;
 	margin: 0 10px;
-	width: 60%;
+	width: 44%;
 	height: 16px;
 	text-align: left;
 	background-color: #ddd;
@@ -406,6 +412,20 @@ body {
 	display: inline-block;
 	height: 16px;
 	background-color: #85adad;
+}
+
+.faction_xp_extra_left {
+	box-sizing: border-box;
+	display: inline-block;
+	width: calc(28% - 10px);
+	text-align: right;
+}
+
+.faction_xp_extra_right {
+	box-sizing: border-box;
+	display: inline-block;
+	width: calc(28% - 10px);
+	text-align: left;
 }
 
 .loader {
