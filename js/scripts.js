@@ -186,14 +186,22 @@ function getProfile(membership_id, membership_type){
 	});
 }
 
-function getCharacter(membership_id, membership_type, character_id){
+function getCharacter(membership_id, membership_type, character_id, reload_character){
 	return $.ajax({
 		url: "https://www.bungie.net/Platform/Destiny2/" + membership_type + "/Profile/" + membership_id + "/Character/" + character_id + "/?components=200", 
 		type: "GET", 
 		beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 		success: function(data){
 			character = data.Response.character.data;
-			showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath, character.percentToNextLevel);
+
+			if(reload_character){
+				$(".character_selected > .emblem_background").attr("src", "https://bungie.net" + character.emblemBackgroundPath);
+				$(".character_selected > .character_power").html("<span class=\"light_symbol\">&#x2726;</span>" + character.light);
+				$(".character_selected > .character_level").html(langs[lang].string_level + character.baseCharacterLevel);
+				$(".character_selected > .level_progression > hr").css("width", character.percentToNextLevel + "%");
+			}else{
+				showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath, character.percentToNextLevel);
+			}
 		}
 	});
 }
@@ -208,8 +216,12 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	$(character).appendTo("#char_list");
 }
 
-function loadCharacterData(membership_type, membership_id, character_id, character){
+function loadCharacterData(membership_type, membership_id, character_id, character, reload_character){
 	$("#prog_factions").html("<p class=\"loader\">" + langs[lang].string_loading + "</p>");
+
+	if(reload_character){
+		getCharacter(membership_id, membership_type, character_id, true);
+	}
 
 	var factions = new factionXP();
 
@@ -221,7 +233,7 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 				beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 				success: function(data){
 					factions = data.Response.progressions.data.factions;
-					factions_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_refresh + "</p></div>";
+					factions_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this, true)\"><p>" + langs[lang].string_refresh + "</p></div>";
 
 					if(repeat_timer){
 						factions_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
