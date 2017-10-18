@@ -272,8 +272,6 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 								}
 							});
 					}
-
-					$("#prog_factions .loader").remove();
 				}
 			});
 
@@ -348,6 +346,7 @@ function factionXP(){
 						3756389242: {"xp": 50,   "faction": 828982195},  //Phaseglass Spire
 						1305274547: {"xp": 100,  "faction": 828982195},  //Phaseglass Needle
 						 685157383: {"xp": 75,   "faction": 1021210278}, //Gunsmith Materials
+						 685157381: {"xp": 25,   "faction": 1021210278}, //Weapon Telemetry
 						3201839676: {"xp": 100,  "faction": 1660497607}, //Nessus Token
 						2949414982: {"xp": 50,   "faction": 1660497607}, //Quantized Datalattice
 						3487922223: {"xp": 100,  "faction": 1660497607}, //Microphasic Datalattice
