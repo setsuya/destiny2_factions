@@ -56,6 +56,8 @@ var langs = {
 		     "string_refresh": "Refresh", 
 		"string_auto_refresh": "Auto", 
 		"string_refresh_time": "(Refreshing automatically every 5 minutes.)", 
+		      "string_legend": "Legend", 
+		 "string_legend_desc": "Your ongoing deeds add to your legend. Progress to your next Bright Engram.", 
 		       "string_error": "User not found or error occurred.<br />Please try again.", 
 		     "string_warning": "<p>Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quot;<b>Show my non-equipped Inventory</b>&quot;.</p><p>After this is done, enter your information again and enjoy.</p>", 
 		      "string_donate": "PayPal me some spicy ramen!"
@@ -75,6 +77,8 @@ var langs = {
 		       "string_human": "Humano", 
 		      "string_awoken": "Desperto", 
 		     "string_refresh": "Atualizar", 
+		      "string_legend": "Lenda", 
+		 "string_legend_desc": "Os seus atos de bravura se somam a sua lenda. Progresso até o seu próximo Engrama Brilhante.", 
 		"string_auto_refresh": "Auto", 
 		"string_refresh_time": "(Atualizando automaticamente a cada 5 minutos.)", 
 		       "string_error": "Usuário não encontrado ou erro ocorrido.<br />Por favor tente novamente.", 
@@ -242,6 +246,11 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 					}else{
 						factions_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
 					}
+
+					legend_level = data.Response.progressions.data.progressions["2030054750"].level;
+					legend_percentage = ((data.Response.progressions.data.progressions["2030054750"].progressToNextLevel / data.Response.progressions.data.progressions["2030054750"].nextLevelAt) * 100).toFixed(2);
+
+					factions_result += "<div class=\"faction\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/bright_engram.png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + langs[lang].string_legend + "</p><p class=\"faction_description\">" + langs[lang].string_legend_desc + "</p><hr /><div class=\"level_progression\"><div class=\"faction_xp_extra_left\"><div class=\"level_number\">" + (legend_level) + "</div></div><div class=\"faction_xp\"><div class=\"xp_bar\" style=\"width: " + legend_percentage + "%;\"></div></div><div class=\"faction_xp_extra_right\"><div class=\"level_number\">" + (legend_level + 1) + "</div></div></div></div></div>";
 
 					for(faction in factions){
 						$.when(getFactionInfo(faction))
