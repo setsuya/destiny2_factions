@@ -147,6 +147,14 @@ body {
 	letter-spacing: 4px;
 	border-bottom: 1px solid #999;
 	font: 14px monospace;
+	cursor: pointer;
+}
+
+#small_character > img, #small_faction > img {
+	width: 12px;
+	height: 12px;
+	margin: 0 5px 0 0;
+	vertical-align: middle;
 }
 
 #reload_info {
@@ -188,6 +196,12 @@ body {
 	box-shadow: 1px 1px 2px #000;
 }
 
+.arrow_symbol {
+	box-sizing: border-box;
+	display: inline-block;
+	text-align: center;
+}
+
 #interval_info {
 	box-sizing: border-box;
 	margin-top: 5px;
@@ -196,7 +210,7 @@ body {
 	color: #999;
 }
 
-#char_list, #prog_factions {
+#char_list, #reward_list, #prog_factions {
 	min-height: 84px;
 }
 
@@ -301,6 +315,52 @@ body {
 
 .light_symbol {
 	font-size: 18px;
+}
+
+.clan_engram {
+	box-sizing: border-box;
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	background: url("../img/clan/clanEngram.png") center center/60px 60px no-repeat;
+	margin: 0 5px;
+}
+
+.acquired_engram {
+	background: url("../img/clan/earnedClanEngram.png") center center/60px 60px no-repeat;
+}
+
+.clan_engram > img {
+	width: 40px;
+	height: 40px;
+	margin: 10px;
+}
+
+#clan_contribution {
+	box-sizing: border-box;
+	margin: 10px 0;
+	padding: 0;
+	font: 14px monospace;
+	color: #999;
+}
+
+#clan_contribution * {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.checkbox {
+	box-sizing: border-box;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin: 0 5px;
+	border: 2px solid #444;
+	outline: 1px solid #999;
+}
+
+.checked {
+	background-color: #6b6;
 }
 
 .faction {

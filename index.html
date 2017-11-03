@@ -13,13 +13,18 @@
 	<body onload="randomIcon()" onfocus="checkRefresh()">
 		<div id="app_info"><p>Destiny 2 Faction Checker</p><img id="language_flag" src="img/en-US.png" onclick="changeLanguage()" /></div>
 		<div id="search_player">
-			<div id="network_selector" data-network="2" onclick="changeNetwork()"><div id="networks"><div id="network_psn"><img src="img/ps_logo.png" /></div><div id="network_xbox_live"><img src="img/xbox_logo.png" /></div></div></div><input type="text" id="player_name" placeholder="Username" /><div id="search_profile" onclick="searchPlayer()"><img src="img/search.png" /></div>
+			<div id="network_selector" data-network="2" onclick="changeNetwork()"><div id="networks"><div id="network_psn"><img src="img/ps_logo.png" /></div><div id="network_xbox_live"><img src="img/xbox_logo.png" /></div></div></div><input type="text" id="player_name" placeholder="Username" onkeydown="checkEnter(event)" /><div id="search_profile" onclick="searchPlayer()"><img src="img/search.png" /></div>
 		</div>
 		<div id="string_warning"></div>
-		<p class="section_title">/<span id="string_characters"></span></p>
+		<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_characters"></span><span id="small_character"></span></p>
 		<div id="char_list"></div>
+		<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_rewards"></span></p>
+		<div id="reward_list">
+			<div id="clan_1977965959" class="clan_engram"><img src="img/clan/nightfall.png" /></div><div id="clan_788707520" class="clan_engram"><img src="img/clan/pvp.png" /></div><div id="clan_84088458" class="clan_engram"><img src="img/clan/raid.png" /></div><div id="clan_4012243269" class="clan_engram"><img src="img/clan/trials.png" /></div>
+			<div id="clan_contribution"><div class="checkbox"></div><p id="string_clan_xp"></p><p>:0000/5000</p></div>
+		</div>
 		<div id="char_info">
-			<p class="section_title">/<span id="string_factions"></span></p>
+			<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_factions"></span><span id="small_faction"></span></p>
 			<div id="prog_factions"></div>
 		</div>
 		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WAV4D2LP9HNB2" target="_blank"><div id="ramen_donate"><img src="img/ramen.png" /><p id="string_donate"></p></div></a>
