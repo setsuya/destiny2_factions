@@ -11,6 +11,6 @@ This faction checker lists all available factions in the game and your character
 - Input user name;
 - If found, a list of characters will be shown with basic information;
 - Select one of the characters;
-- List of factions and that character's current standing with them will be shown;
+- List of factions and that character's current standing with them along clan rewards and contributed experience for the selected character will be shown;
 
-If you have items you can turn in they will be shown as a percentage in green in each faction's experience bar. The list will not update by itself, though. You need to refresh it manually with the button before the faction list.
+If you have items you can turn in they will be shown as a percentage in green in each faction's experience bar. The list can update by itself every 5 minutes if you choose to. You can refresh it manually or automatically with the buttons before the faction list.
