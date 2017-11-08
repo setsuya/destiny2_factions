@@ -307,6 +307,7 @@ function getCharacter(membership_id, membership_type, character_id, reload_chara
 				$(".character_selected > .character_power").html("<span class=\"light_symbol\">&#x2726;</span>" + character.light);
 				$(".character_selected > .character_level").html(langs[lang].string_level + " " + character.baseCharacterLevel);
 				$(".character_selected > .level_progression > hr").css("width", character.percentToNextLevel + "%");
+				$(".character_selected").next("p").html(langs[lang].string_total_time + ": " + convertTime(character.minutesPlayedTotal));
 			}else{
 				showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath, character.percentToNextLevel, character.minutesPlayedTotal);
 			}
