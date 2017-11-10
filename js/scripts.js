@@ -11,7 +11,7 @@ $(document).ready(function(){
 		repeat_timer = localStorage.repeat_timer === "true";
 	}
 
-	$(".section_title > span, #ramen_donate > p, #string_warning, #string_clan_xp").each(function(){
+	$(".section_title > span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github").each(function(){
 		$(this).html(langs[lang][$(this).attr("id")]);
 	});
 });
@@ -63,7 +63,8 @@ var langs = {
 		 "string_legend_desc": "Your ongoing deeds add to your legend. Progress to your next Bright Engram.", 
 		       "string_error": "User not found or error occurred.<br />Please try again.", 
 		     "string_warning": "<p>Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quot;<b>Show my non-equipped Inventory</b>&quot;.</p><p>After this is done, enter your information again and enjoy.</p>", 
-		      "string_donate": "PayPal me some spicy ramen!"
+		      "string_donate": "PayPal me some spicy ramen!", 
+			  "string_github": "Check me out on"
 		
 	}, 
 	"pt-BR": {
@@ -89,7 +90,8 @@ var langs = {
 		"string_refresh_time": "(Atualizando automaticamente a cada 5 minutos.)", 
 		       "string_error": "Usuário não encontrado ou erro ocorrido.<br />Por favor tente novamente.", 
 		     "string_warning": "<p>Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quot;<b>Mostrar meu Inventário não equipado</b>&quot;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite.</p>", 
-		      "string_donate": "Me pague um ramen apimentado pelo PayPal!"
+		      "string_donate": "Me pague um ramen apimentado pelo PayPal!", 
+			  "string_github": "Dê uma olhada no meu"
 	}
 };
 

@@ -525,7 +525,7 @@ body {
 	border-radius: 50%;
 }
 
-#ramen_donate > p {
+#ramen_donate > p, #github {
 	box-sizing: border-box;
 	position: relative;
 	padding: 0;
@@ -533,4 +533,25 @@ body {
 	text-align: center;
 	color: #999;
 	font: 12px monospace;
+}
+
+#github {
+	box-sizing: border-box;
+	position: relative;
+	padding: 0;
+	margin: 20px 0;
+	text-align: center;
+	color: #999;
+	font: 12px monospace;
+}
+
+#github img {
+	vertical-align: bottom;
+	width: 18px;
+	height: 18px;
+}
+
+#github a:link, #github a:visited, #github a:hover, #github a:active {
+	text-decoration: underline;
+	color: #999;
 }
