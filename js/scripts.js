@@ -11,9 +11,11 @@ $(document).ready(function(){
 		repeat_timer = localStorage.repeat_timer === "true";
 	}
 
-	$(".section_title > span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github").each(function(){
+	$(".section_title > span, #reload_info_off span, #auto_reload_off span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github").each(function(){
 		$(this).html(langs[lang][$(this).attr("id")]);
 	});
+
+	original_button_position = $("#reload_buttons").offset().top;
 });
 
 var lang = "";
@@ -21,6 +23,7 @@ var repeat_timer = false;
 var timer_start_time = 0;
 var timer_id = 0;
 var timer_time = 300000;
+var original_button_position = 0;
 
 var factions_xp = {
 	  24856709: 0, //Leviathan
@@ -44,6 +47,7 @@ var langs = {
 		  "string_characters": "Characters", 
 		     "string_rewards": "Clan Rewards", 
 			 "string_clan_xp": "Clan XP", 
+		  "string_milestones": "Milestones", 
 		    "string_factions": "Factions", 
 		     "string_loading": "Loading...", 
 		      "string_hunter": "Hunter", 
@@ -71,6 +75,7 @@ var langs = {
 		  "string_characters": "Personagens", 
 		     "string_rewards": "Prêmios de Clã", 
 			 "string_clan_xp": "EXP Clã", 
+		  "string_milestones": "Marcos", 
 		    "string_factions": "Facções", 
 		     "string_loading": "Carregando...", 
 		      "string_hunter": "Caçador", 
@@ -100,6 +105,29 @@ function randomIcon(){
 	random_num = Math.floor(Math.random() * icons.length);
 	
 	$("[rel='icon']").attr("href", "img/favicons/" + icons[random_num] + ".png");
+}
+
+function scrollRefreshButtons(){
+	window_scroll_top = $(window).scrollTop();
+	new_reload_position = 0;
+
+	if(window_scroll_top < original_button_position){
+		new_reload_position = 0;
+
+		$("#reload_buttons").removeClass("reload_hover");
+	}else{
+		new_reload_position = window_scroll_top - original_button_position + 50;
+
+		$("#reload_buttons").addClass("reload_hover");
+
+		if(new_reload_position < 0){
+			new_reload_position = 0;
+
+			$("#reload_buttons").removeClass("reload_hover");
+		}
+	}
+
+	$("#reload_buttons").stop(false, false).animate({top: new_reload_position}, 300, "linear");
 }
 
 function createTimeout(timer_value){
@@ -173,18 +201,20 @@ function checkEnter(e){
 }
 
 function toggleSection(section){
-	$(section).next().fadeToggle(300);
+	$(section).next().slideToggle(300, function(){original_button_position = $("#reload_buttons").offset().top;});
 	$(section).find(".arrow_symbol").toggleClass("closed");
 
 	if($(section).find(".arrow_symbol").hasClass("closed")){
 		$(section).find(".arrow_symbol").html("&#9655;");
 
-		if(($(section).find("#string_characters").length > 0) && ($(".character").hasClass("character_selected"))){
-			char_image = $(".character_selected").attr("data-emblem");
-			char_level = $(".character_selected > .character_level").text().replace(langs[lang].string_level + " ", langs[lang].string_level.substr(0, 1));
-			char_light = $(".character_selected > .character_power").text();
+		if($(section).find("#string_characters").length > 0){
+			if($(".character").hasClass("character_selected")){
+				char_image = $(".character_selected").attr("data-emblem");
+				char_level = $(".character_selected > .character_level").text().replace(langs[lang].string_level + " ", langs[lang].string_level.substr(0, 1));
+				char_light = $(".character_selected > .character_power").text();
 
-			$("#small_character").html("[<img src=\"https://www.bungie.net" + char_image + "\" />/" + char_level + "/" + char_light + "]");
+				$("#small_character").html("[<img src=\"https://www.bungie.net" + char_image + "\" />/" + char_level + "/" + char_light + "]");
+			}
 		}
 
 		if($(section).find("#string_rewards").length > 0){
@@ -199,6 +229,13 @@ function toggleSection(section){
 			exp_percentage = (parseInt(progress[0])/parseInt(progress[1])) * 100;
 
 			$("#small_clan").html("[" + engrams + "/" + exp_percentage + "%]");
+		}
+
+		if($(section).find("#string_milestones").length > 0){
+			completed_milestones = $("#milestone_list > .milestone_completed").length;
+			total_milestones = $("#milestone_list > .milestone").length;
+
+			$("#small_milestone").html("[" + completed_milestones + "/" + total_milestones + "]");
 		}
 
 		if($(section).find("#string_factions").length > 0){
@@ -219,6 +256,10 @@ function toggleSection(section){
 
 		if($(section).find("#string_rewards").length > 0){
 			$("#small_clan").html("");
+		}
+
+		if($(section).find("#string_milestones").length > 0){
+			$("#small_milestone").html("");
 		}
 
 		if($(section).find("#string_factions").length > 0){
@@ -252,7 +293,12 @@ function searchPlayer(){
 		platform = $("#network_selector").attr("data-network");
 		player = encodeURIComponent($("#player_name").val());
 
-		$("#char_list, #prog_factions").html("");
+		$("#char_list, #prog_factions, #milestone_list").html("");
+		$("#reload_buttons").html("<div id=\"reload_info_off\"><p>" + langs[lang].string_refresh + "</p></div><div id=\"auto_reload_off\" class=\"repeat_off\"><p>" + langs[lang].string_auto_refresh + "</p></div>");
+		$("#reward_list > div").removeClass("acquired_engram");
+		$("#clan_contribution > div").removeClass("checked");
+		$("#clan_contribution > p:last").html(":0000/5000");
+		$("#string_warning").slideUp();
 		$("#char_list").html("<p class=\"loader\">" + langs[lang].string_loading + "</p>");
 
 		return $.ajax({
@@ -281,10 +327,6 @@ function getProfile(membership_id, membership_type){
 		type: "GET", 
 		beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 		success: function(data){
-			$("#reward_list > div").removeClass("acquired_engram");
-			$("#clan_contribution > div").removeClass("checked");
-			$("#clan_contribution > p:last").html(":0000/5000");
-
 			if(data.ErrorCode == 1){
 				for(i = 0; i < data.Response.profile.data.characterIds.length; i++){
 					getCharacter(membership_id, membership_type, data.Response.profile.data.characterIds[i]);
@@ -325,6 +367,7 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	character = "<div class=\"character_info\"><div class=\"character\" data-emblem=\"" + emblem_image + "\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://www.bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression\"><hr style=\"width: " + next_level_progression + "%\" /></div></div><p>" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>";
 
 	$(character).appendTo("#char_list");
+	original_button_position = $("#reload_buttons").offset().top;
 }
 
 function convertTime(time){
@@ -340,7 +383,7 @@ function convertTime(time){
 function loadCharacterData(membership_type, membership_id, character_id, character, reload_character){
 	openAllSections();
 
-	$("#prog_factions").html("<p class=\"loader\">" + langs[lang].string_loading + "</p>");
+	$("#prog_factions, #milestone_list").html("<p class=\"loader\">" + langs[lang].string_loading + "</p>");
 
 	if(reload_character){
 		getCharacter(membership_id, membership_type, character_id, true);
@@ -355,18 +398,22 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 				type: "GET", 
 				beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
 				success: function(data){
+					getMilestoneInfo(data.Response.progressions.data.milestones);
 					getClanRewardsState(data.Response.progressions.data.uninstancedItemObjectives[432848324], data.Response.progressions.data.uninstancedItemObjectives[2540008660][0].progress);
 
 					factions = data.Response.progressions.data.factions;
-					factions_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this, true)\"><p>" + langs[lang].string_refresh + "</p></div>";
+					factions_result = "";
+					buttons_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this, true)\"><p>" + langs[lang].string_refresh + "</p></div>";
 
 					if(repeat_timer){
-						factions_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
+						buttons_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
 						timer_start_time = new Date().getTime();
 						createTimeout(timer_time);
 					}else{
-						factions_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
+						buttons_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
 					}
+
+					$("#reload_buttons").html(buttons_result).slideDown();
 
 					legend_level = data.Response.progressions.data.progressions["2030054750"].level;
 					legend_percentage = ((data.Response.progressions.data.progressions["2030054750"].progressToNextLevel / data.Response.progressions.data.progressions["2030054750"].nextLevelAt) * 100).toFixed(2);
@@ -459,6 +506,53 @@ function getFactionInfo(faction_id){
 				return result;
 			}
 		}
+	});
+}
+
+function getMilestoneInfo(milestones){
+	return $.get("destiny_2_milestone_db_" + lang + ".json").then(function(data){
+		milestones_contents = "";
+
+		for(item in data){
+			milestone_info = JSON.parse(data[item][1]);
+
+			for(milestone in milestones){
+				if(milestone_info.hash == milestones[milestone].milestoneHash){
+					for(quest in milestone_info.quests){
+						if(milestones[milestone].availableQuests){
+							if(milestones[milestone].availableQuests.length == 1){
+								if(milestones[milestone].availableQuests[0].questItemHash == quest && milestone_info.milestoneType > 2 && milestones[milestone].availableQuests[0].status.started){
+									if(milestone_info.quests[quest].displayProperties){
+										if(milestones[milestone].availableQuests[0].status.completed){
+											if(!milestones[milestone].availableQuests[0].status.redeemed){
+												milestones_contents += "<div class=\"milestone milestone_completed\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
+											}
+										}else{
+											milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
+										}
+									}
+								}
+							}else{
+								total_quests = 0;
+								quests_length = milestones[milestone].availableQuests.length;
+
+								for(milestone_quest in milestones[milestone].availableQuests){
+									if(milestones[milestone].availableQuests[milestone_quest].status.completed){
+										total_quests++;
+									}
+								}
+
+								if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2 && milestones[milestone].availableQuests[0].status.started){
+									milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.displayProperties.name + "</p></div>";
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		$("#milestone_list").html(milestones_contents);
 	});
 }
 

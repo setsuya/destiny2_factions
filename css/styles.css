@@ -159,6 +159,17 @@ body {
 	vertical-align: middle;
 }
 
+#reload_buttons {
+	box-sizing: border-box;
+	position: relative;
+	z-index: 5;
+	margin: 20px auto;
+}
+
+.reload_hover {
+	background-color: rgba(68, 68, 68, 0.9);
+}
+
 #reload_info {
 	box-sizing: border-box;
 	display: inline-block;
@@ -166,6 +177,17 @@ body {
 	width: 80%;
 	cursor: pointer;
 	background-color: #d0b731;
+	outline: 1px solid #000;
+	box-shadow: 1px 1px 2px #000;
+}
+
+#reload_info_off {
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	width: 80%;
+	cursor: default;
+	background-color: #333;
 	outline: 1px solid #000;
 	box-shadow: 1px 1px 2px #000;
 }
@@ -179,6 +201,16 @@ body {
 	outline: 1px solid #000;
 }
 
+#auto_reload_off {
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	width: 20%;
+	cursor: default;
+	background-color: #333;
+	outline: 1px solid #000;
+}
+
 #reload_info > p, #auto_reload > p {
 	box-sizing: border-box;
 	padding: 10px 5px;
@@ -186,6 +218,17 @@ body {
 	font: bold 16px monospace;
 	text-transform: uppercase;
 	letter-spacing: 4px;
+}
+
+#reload_info_off > p, #auto_reload_off > p {
+	box-sizing: border-box;
+	padding: 10px 5px;
+	margin: 0;
+	font: bold 16px monospace;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	color: #444;
+	text-shadow: -1px -1px 0 #222;
 }
 
 .repeat_on {
@@ -207,12 +250,13 @@ body {
 #interval_info {
 	box-sizing: border-box;
 	margin-top: 5px;
-	padding: 0;
+	padding: 0 0 5px 0;
 	font: italic 12px Verdana, sans-serif;
 	color: #999;
+	text-shadow: 1px 1px 0 #000;
 }
 
-#char_list, #reward_list, #prog_factions {
+#char_list, #reward_list, #prog_factions, #milestone_list {
 	min-height: 84px;
 }
 
@@ -378,6 +422,32 @@ body {
 	background-color: #6b6;
 }
 
+.milestone {
+	box-sizing: border-box;
+	position: relative;
+	margin: 15px auto;
+	width: 95%;
+	box-shadow: 1px 1px 2px #000;
+}
+
+.milestone:nth-child(even) {
+	background-color: #ccc;
+}
+
+.milestone:nth-child(odd) {
+	background-color: #999;
+}
+
+.milestone > p {
+	padding: 5px 15px;
+	font: 16px Verdana, sans-serif;
+	color: #000;
+}
+
+.milestone_completed {
+	outline: 5px solid #f0d751;
+}
+
 .faction {
 	box-sizing: border-box;
 	position: relative;
@@ -387,7 +457,7 @@ body {
 }
 
 .faction:nth-child(even) {
-	background-color: #ccc;	
+	background-color: #ccc;
 }
 
 .faction:nth-child(odd) {
