@@ -24,13 +24,13 @@ If you have items you can turn in they will be shown as a percentage in green in
 If you want to see this tool available in one of the other languages Destiny 2 is available in, I hang out a lot on the Destiny 2 subreddit. You can send me a message there through [this link](https://www.reddit.com/message/compose/?to=Setsuya_&subject=Destiny%202%20Faction%20Checker%20Translation) or check my email on my [Github profile](https://github.com/setsuya) if Reddit is not your thing to offer to help me translate this into other languages.
 
 **Language support:**
-[ ] Chinese
-[x] English
-[ ] French
-[ ] German
-[ ] Italian
-[ ] Japanese
-[ ] Polish
-[x] Portuguese
-[ ] Russian
-[ ] Spanish
+- [ ] Chinese
+- [x] English
+- [ ] French
+- [ ] German
+- [ ] Italian
+- [ ] Japanese
+- [ ] Polish
+- [x] Portuguese
+- [ ] Russian
+- [ ] Spanish
