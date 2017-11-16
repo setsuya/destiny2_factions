@@ -11,7 +11,7 @@ $(document).ready(function(){
 		repeat_timer = localStorage.repeat_timer === "true";
 	}
 
-	$(".section_title > span, #reload_info_off span, #auto_reload_off span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github").each(function(){
+	$(".section_title > span, #reload_info_off span, #auto_reload_off span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github, #string_translate").each(function(){
 		$(this).html(langs[lang][$(this).attr("id")]);
 	});
 
@@ -71,7 +71,8 @@ var langs = {
 			 "string_warning": "<p>Destiny Faction Checker needs access to your inventory to be able to show faction experience from tokens and materials in your possession. You can still use this tool, only it won't show when you have enough materials for a rank up with the factions. In order to make this information publicly available you need to follow some simple steps.</p><p>Go to <b>Bungie.net</b> and log into your account. Then go to <b>Settings</b> &gt; <b>Privacy</b> and check the option that says &quot;<b>Show my non-equipped Inventory</b>&quot;.</p><p>After this is done, enter your information again and enjoy.</p>", 
 			  "string_donate": "PayPal me some spicy ramen!", 
 			  "string_github": "Check me out on", 
-			   "string_share": "Keep track of your characters' progress with your clan, milestones and factions in Destiny 2."
+			   "string_share": "Keep track of your characters' progress with your clan, milestones and factions in Destiny 2.", 
+		   "string_translate": "Help me translate this tool into your language!"
 		
 	}, 
 	"pt-BR": {
@@ -100,7 +101,8 @@ var langs = {
 			 "string_warning": "<p>Destiny Faction Checker precisa de acesso ao seu inventário para poder exibir experiência de facções a partir de medalhas e materiais na sua posse. Você ainda pode utilizar esta ferramenta, ela apenas não irá dizer quando você possuir materiais suficientes para subir de nível com as facções. Para deixar essa informação disponível publicamentevocê precisa seguir alguns simples passos.</p><p>Vá até <b>Bungie.net</b> e acesse sua conta. Então vá até <b>Configurações</b> &gt; <b>Privacidade</b> e marque a opção que diz &quot;<b>Mostrar meu Inventário não equipado</b>&quot;.</p><p>Após fazer isso, coloque suas informações novamente e aproveite.</p>", 
 			  "string_donate": "Me pague um ramen apimentado pelo PayPal!", 
 			  "string_github": "Dê uma olhada no meu", 
-			   "string_share": "Acompanhe o progresso dos seus personagens com seu clã, marcos e facções em Destiny 2."
+			   "string_share": "Acompanhe o progresso dos seus personagens com seu clã, marcos e facções em Destiny 2.", 
+		   "string_translate": "Ajude a traduzir essa ferramenta para o seu idioma!"
 	}
 };
 
@@ -354,7 +356,7 @@ function getCharacter(membership_id, membership_type, character_id, reload_chara
 				$(".character_selected > .emblem_background").attr("src", "https://www.bungie.net" + character.emblemBackgroundPath);
 				$(".character_selected > .character_power").html("<span class=\"light_symbol\">&#x2726;</span>" + character.light);
 				$(".character_selected > .character_level").html(langs[lang].string_level + " " + character.baseCharacterLevel);
-				$(".character_selected > .level_progression > hr").css("width", character.percentToNextLevel + "%");
+				$(".character_selected > .level_progression_char > hr").css("width", character.percentToNextLevel + "%");
 				$(".character_selected").next("p").html(langs[lang].string_total_time + ": " + convertTime(character.minutesPlayedTotal));
 			}else{
 				showCharacterInfoBanner(character.membershipType, character.membershipId, character.characterId, character.baseCharacterLevel, character.light, character.classType, character.raceType, character.genderType, character.emblemPath, character.emblemBackgroundPath, character.percentToNextLevel, character.minutesPlayedTotal);
@@ -368,7 +370,7 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	class_list = [langs[lang].string_titan, langs[lang].string_hunter, langs[lang].string_warlock];
 	race_list = [langs[lang].string_human, langs[lang].string_awoken, langs[lang].string_exo];
 
-	character = "<div class=\"character_info\"><div class=\"character\" data-emblem=\"" + emblem_image + "\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://www.bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression\"><hr style=\"width: " + next_level_progression + "%\" /></div></div><p>" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>";
+	character = "<div class=\"character_info\"><div class=\"character\" data-emblem=\"" + emblem_image + "\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://www.bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression_char\"><hr style=\"width: " + next_level_progression + "%\" /></div></div><p>" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>";
 
 	$(character).appendTo("#char_list");
 	original_button_position = $("#reload_buttons").offset().top;
