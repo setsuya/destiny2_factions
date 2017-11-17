@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 	$("meta[property='og:description']").attr("content", langs[lang].string_share);
 
-	original_button_position = $("#reload_buttons").offset().top;
+	original_button_position = $("#reload_div").offset().top;
 });
 
 var lang = "";
@@ -207,7 +207,7 @@ function checkEnter(e){
 }
 
 function toggleSection(section){
-	$(section).next().slideToggle(300, function(){original_button_position = $("#reload_buttons").offset().top;});
+	$(section).next().slideToggle(300, function(){original_button_position = $("#reload_div").offset().top;});
 	$(section).find(".arrow_symbol").toggleClass("closed");
 
 	if($(section).find(".arrow_symbol").hasClass("closed")){
@@ -373,7 +373,7 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	character = "<div class=\"character_info\"><div class=\"character\" data-emblem=\"" + emblem_image + "\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://www.bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression_char\"><hr style=\"width: " + next_level_progression + "%\" /></div></div><p>" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>";
 
 	$(character).appendTo("#char_list");
-	original_button_position = $("#reload_buttons").offset().top;
+	original_button_position = $("#reload_div").offset().top;
 }
 
 function convertTime(time){
@@ -548,7 +548,7 @@ function getMilestoneInfo(milestones){
 									}
 								}
 
-								if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2 && milestones[milestone].availableQuests[0].status.started){
+								if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2){
 									milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.displayProperties.name + "</p></div>";
 								}
 							}
@@ -625,7 +625,8 @@ function factionXP(){
 						}
 					}
 				}else{
-					$("#string_warning").slideDown();
+					$("#string_warning").slideDown(function(){original_button_position = $("#reload_div").offset().top});
+					
 				}
 			}
 		});
