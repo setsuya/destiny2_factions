@@ -18,14 +18,22 @@ $(document).ready(function(){
 	$("meta[property='og:description']").attr("content", langs[lang].string_share);
 
 	original_button_position = $("#reload_div").offset().top;
+
+	checkManifestVersion();
 });
 
+var jszip = new JSZip();
+var sql = window.SQL;
+var lang_array = ["en", "pt-br"];
+var lang_files = {};
+var counter = 0;
 var lang = "";
 var repeat_timer = false;
 var timer_start_time = 0;
 var timer_id = 0;
 var timer_time = 300000;
 var original_button_position = 0;
+var version = "";
 
 var factions_xp = {
 	  24856709: 0, //Leviathan
@@ -46,6 +54,7 @@ var factions_xp = {
 
 var langs = {
 	"en-US": {
+						 "id": "en", 
 		  "string_characters": "Characters", 
 			 "string_rewards": "Clan Rewards", 
 			 "string_clan_xp": "Clan XP", 
@@ -72,10 +81,13 @@ var langs = {
 			  "string_donate": "PayPal me some spicy ramen!", 
 			  "string_github": "Check me out on", 
 			   "string_share": "Keep track of your characters' progress with your clan, milestones and factions in Destiny 2.", 
-		   "string_translate": "Help me translate this tool into your language!"
+		   "string_translate": "Help me translate this tool into your language!", 
+	   "string_updating_info": "Downloading updated information. Please wait...", 
+		 "string_update_done": "DONE!"
 		
 	}, 
 	"pt-BR": {
+						 "id": "pt-br", 
 		  "string_characters": "Personagens", 
 			 "string_rewards": "Prêmios de Clã", 
 			 "string_clan_xp": "EXP Clã", 
@@ -102,7 +114,9 @@ var langs = {
 			  "string_donate": "Me pague um ramen apimentado pelo PayPal!", 
 			  "string_github": "Dê uma olhada no meu", 
 			   "string_share": "Acompanhe o progresso dos seus personagens com seu clã, marcos e facções em Destiny 2.", 
-		   "string_translate": "Ajude a traduzir essa ferramenta para o seu idioma!"
+		   "string_translate": "Ajude a traduzir essa ferramenta para o seu idioma!", 
+	   "string_updating_info": "Baixando informação atualizada. Aguarde, por favor...", 
+		 "string_update_done": "PRONTO!"
 	}
 };
 
@@ -290,6 +304,71 @@ function zeroPad(number, size){
 	}
 
 	return number;
+}
+
+function checkManifestVersion(){
+	$.ajax({
+		url: "https://www.bungie.net/Platform/Destiny2/Manifest/", 
+		type: "GET", 
+		beforeSend: function(xhr){xhr.setRequestHeader("X-API-Key", "983e6af736df45cb8ef8f283e0d4720d");},
+		success: function(data){
+			version = data.Response.version;
+
+			if(!("curr_ver" in localStorage) || localStorage.curr_ver != version){
+				getManifestDBs(data.Response.mobileWorldContentPaths);
+			}
+		}
+	});
+}
+
+function getManifestDBs(urls){
+	$("<div id=\"overlay\"><div id=\"overlay_contents\"><p>" + langs[lang].string_updating_info + "</p><p id=\"download_progress\">0%</p></div></div>").appendTo("body").fadeIn("slow", function(){$("#overlay_contents").slideDown();});
+
+	for(lang_item in lang_array){
+		url_string = "https://www.bungie.net" + urls[lang_array[lang_item]];
+
+		JSZipUtils.getBinaryContent(url_string, function(err, data){
+			jszip.loadAsync(data)
+				.then(function(result){
+					lang_files = Object.keys(result.files);
+					
+					if(lang_files.length == lang_array.length){
+						for(i = 0; i < lang_files.length; i++){
+							jszip.file(result.files[Object.keys(result.files)[i]].name).async("uint8array", function showProgress(metadata){$("#download_progress").text(metadata.percent.toFixed(0) + "%");})
+								.then(function(data){
+									getTableData(data);
+								});
+						}
+					}
+				});
+			});
+	}
+}
+
+function getTableData(database){
+	db = new sql.Database(database);
+
+	tables = ["DestinyFactionDefinition", "DestinyMilestoneDefinition"];
+
+	for(table in tables){
+		res = db.exec("SELECT * FROM " + tables[table]);
+		items = res[0].values;
+		result_string = "";
+
+		for(item in items){
+			result_string += "[" + items[item][0] + ", " + JSON.stringify(items[item][1]) + "], ";
+		}
+
+		result_string = "[" + result_string.substr(0, result_string.lastIndexOf(", ")) + "]";
+		localStorage[tables[table] + "_" + lang_array[counter]] = result_string;
+	}
+
+	counter++;
+
+	if(counter == lang_array.length){
+		localStorage.curr_ver = version;
+		$("#download_progress").html(langs[lang].string_update_done).parent().delay(2000).slideUp(function(){$("#overlay").fadeOut("slow");});
+	}
 }
 
 function searchPlayer(){
@@ -490,76 +569,75 @@ function getClanRewardsState(rewards_info, contribution){
 }
 
 function getFactionInfo(faction_id){
-	return $.get("destiny_2_faction_db_" + lang + ".json").then(function(data){
-		for(faction in data){
-			faction_info = JSON.parse(data[faction][1]);
+	data = JSON.parse(localStorage["DestinyFactionDefinition_" + langs[lang].id]);
 
-			if(faction_info.hash == faction_id){
-				result = {};
+	for(faction in data){
+		faction_info = JSON.parse(data[faction][1]);
 
-				result["id"] = faction_id;
+		if(faction_info.hash == faction_id){
+			result = {};
 
-				if(faction_info.displayProperties.icon){
-					result["image"] = "https://www.bungie.net" + faction_info.displayProperties.icon;
-				}else{
-					result["image"] = "none.png";
-				}
+			result["id"] = faction_id;
 
-				result["name"] = faction_info.displayProperties.name;
-				result["description"] = faction_info.displayProperties.description;
-				result["redacted"] = faction_info.redacted;
-
-				return result;
+			if(faction_info.displayProperties.icon){
+				result["image"] = "https://www.bungie.net" + faction_info.displayProperties.icon;
+			}else{
+				result["image"] = "none.png";
 			}
+
+			result["name"] = faction_info.displayProperties.name;
+			result["description"] = faction_info.displayProperties.description;
+			result["redacted"] = faction_info.redacted;
+
+			return result;
 		}
-	});
+	}
 }
 
 function getMilestoneInfo(milestones){
-	return $.get("destiny_2_milestone_db_" + lang + ".json").then(function(data){
-		milestones_contents = "";
+	data = JSON.parse(localStorage["DestinyMilestoneDefinition_" + langs[lang].id]);
+	milestones_contents = "";
 
-		for(item in data){
-			milestone_info = JSON.parse(data[item][1]);
+	for(item in data){
+		milestone_info = JSON.parse(data[item][1]);
 
-			for(milestone in milestones){
-				if(milestone_info.hash == milestones[milestone].milestoneHash){
-					for(quest in milestone_info.quests){
-						if(milestones[milestone].availableQuests){
-							if(milestones[milestone].availableQuests.length == 1){
-								if(milestones[milestone].availableQuests[0].questItemHash == quest && milestone_info.milestoneType > 2 && milestones[milestone].availableQuests[0].status.started){
-									if(milestone_info.quests[quest].displayProperties){
-										if(milestones[milestone].availableQuests[0].status.completed){
-											if(!milestones[milestone].availableQuests[0].status.redeemed){
-												milestones_contents += "<div class=\"milestone milestone_completed\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
-											}
-										}else{
-											milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
+		for(milestone in milestones){
+			if(milestone_info.hash == milestones[milestone].milestoneHash){
+				for(quest in milestone_info.quests){
+					if(milestones[milestone].availableQuests){
+						if(milestones[milestone].availableQuests.length == 1){
+							if(milestones[milestone].availableQuests[0].questItemHash == quest && milestone_info.milestoneType > 2 && milestones[milestone].availableQuests[0].status.started){
+								if(milestone_info.quests[quest].displayProperties){
+									if(milestones[milestone].availableQuests[0].status.completed){
+										if(!milestones[milestone].availableQuests[0].status.redeemed){
+											milestones_contents += "<div class=\"milestone milestone_completed\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
 										}
+									}else{
+										milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
 									}
 								}
-							}else{
-								total_quests = 0;
-								quests_length = milestones[milestone].availableQuests.length;
+							}
+						}else{
+							total_quests = 0;
+							quests_length = milestones[milestone].availableQuests.length;
 
-								for(milestone_quest in milestones[milestone].availableQuests){
-									if(milestones[milestone].availableQuests[milestone_quest].status.completed){
-										total_quests++;
-									}
+							for(milestone_quest in milestones[milestone].availableQuests){
+								if(milestones[milestone].availableQuests[milestone_quest].status.completed){
+									total_quests++;
 								}
+							}
 
-								if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2){
-									milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.displayProperties.name + "</p></div>";
-								}
+							if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2){
+								milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.displayProperties.name + "</p></div>";
 							}
 						}
 					}
 				}
 			}
 		}
+	}
 
-		$("#milestone_list").html(milestones_contents);
-	});
+	$("#milestone_list").html(milestones_contents);
 }
 
 function factionXP(){
