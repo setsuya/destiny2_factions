@@ -693,3 +693,12 @@ body {
 	text-decoration: underline;
 	color: #999;
 }
+
+#manifest_ver {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+	font: 10px monospace;
+	color: #999;
+	text-shadow: 1px 1px 0 #000;
+}

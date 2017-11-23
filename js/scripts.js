@@ -10,6 +10,10 @@ $(document).ready(function(){
 	if(localStorage.repeat_timer){
 		repeat_timer = localStorage.repeat_timer === "true";
 	}
+	
+	if(localStorage.curr_ver){
+		$("#manifest_ver > span").text(localStorage.curr_ver);
+	}
 
 	$(".section_title > span, #reload_info_off span, #auto_reload_off span, #ramen_donate > p, #string_warning, #string_clan_xp, #string_github, #string_translate").each(function(){
 		$(this).html(langs[lang][$(this).attr("id")]);
