@@ -86,7 +86,8 @@ var langs = {
 			  "string_github": "Check me out on", 
 			   "string_share": "Keep track of your characters' progress with your clan, milestones and factions in Destiny 2.", 
 		   "string_translate": "Help me translate this tool into your language!", 
-	   "string_updating_info": "Downloading updated information. Please wait...", 
+	   "string_updating_info": "Fetching information, please wait.", 
+	"string_downloading_info": "Downloading:", 
 		 "string_update_done": "DONE!"
 		
 	}, 
@@ -119,7 +120,8 @@ var langs = {
 			  "string_github": "Dê uma olhada no meu", 
 			   "string_share": "Acompanhe o progresso dos seus personagens com seu clã, marcos e facções em Destiny 2.", 
 		   "string_translate": "Ajude a traduzir essa ferramenta para o seu idioma!", 
-	   "string_updating_info": "Baixando informação atualizada. Aguarde, por favor...", 
+	   "string_updating_info": "Buscando informações, por favor aguarde.", 
+	"string_downloading_info": "Fazendo download:", 
 		 "string_update_done": "PRONTO!"
 	}
 };
@@ -326,7 +328,7 @@ function checkManifestVersion(){
 }
 
 function getManifestDBs(urls){
-	$("<div id=\"overlay\"><div id=\"overlay_contents\"><p>" + langs[lang].string_updating_info + "</p><p id=\"download_progress\">0%</p></div></div>").appendTo("body").fadeIn("slow", function(){$("#overlay_contents").slideDown();});
+	$("<div id=\"overlay\"><div id=\"overlay_contents\"><p>" + langs[lang].string_updating_info + "</p><p>" + langs[lang].string_downloading_info + " <span id=\"download_progress\">0%</span></p></div></div>").appendTo("body").fadeIn("slow", function(){$("#overlay_contents").slideDown();});
 
 	for(lang_item in lang_array){
 		url_string = "https://www.bungie.net" + urls[lang_array[lang_item]];
@@ -371,7 +373,8 @@ function getTableData(database){
 
 	if(counter == lang_array.length){
 		localStorage.curr_ver = version;
-		$("#download_progress").html(langs[lang].string_update_done).parent().delay(2000).slideUp(function(){$("#overlay").fadeOut("slow");});
+		$("#manifest_ver > span").text(version);
+		$("#download_progress").html(langs[lang].string_update_done).parents("#overlay_contents").delay(2000).slideUp(function(){$("#overlay").fadeOut("slow");});
 	}
 }
 
