@@ -102,7 +102,7 @@ body {
 }
 
 #search_player * {
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 #player_name {
