@@ -30,6 +30,7 @@ var jszip = new JSZip();
 var sql = window.SQL;
 var lang_array = ["en", "pt-br"];
 var lang_files = {};
+var langs_db = {};
 var counter = 0;
 var lang = "";
 var repeat_timer = false;
@@ -53,7 +54,8 @@ var factions_xp = {
 	1714509342: 0, //Future War Cult
 	2105209711: 0, //New Monarchy
 	3398051042: 0, //Dead Orbit
-	1761642340: 0  //Iron Banner
+	1761642340: 0, //Iron Banner
+	2677528157: 0  //Follower of Osiris
 };
 
 var langs = {
@@ -127,7 +129,7 @@ var langs = {
 };
 
 function randomIcon(){
-	icons = ["24856709", "469305170", "611314723", "697030790", "1021210278", "1714509342", "2105209711", "3231773039", "3398051042", "1761642340"];
+	icons = ["24856709", "469305170", "611314723", "697030790", "1021210278", "1714509342", "2105209711", "3231773039", "3398051042", "1761642340", "2677528157"];
 	random_num = Math.floor(Math.random() * icons.length);
 	
 	$("[rel='icon']").attr("href", "img/favicons/" + icons[random_num] + ".png");
@@ -320,8 +322,16 @@ function checkManifestVersion(){
 		success: function(data){
 			version = data.Response.version;
 
-			if(!("curr_ver" in localStorage) || localStorage.curr_ver != version){
-				getManifestDBs(data.Response.mobileWorldContentPaths);
+			for(language in lang_array){
+				db_url = data.Response.mobileWorldContentPaths[lang_array[language]];
+
+				if(!(("db_name_" + lang_array[language]) in localStorage) || localStorage["db_name_" + lang_array[language]] != db_url.substr(db_url.lastIndexOf("/") + 1)){
+					langs_db[lang_array[language]] = db_url;
+				}
+			}
+
+			if(Object.keys(langs_db).length > 0){
+				getManifestDBs(langs_db);
 			}
 		}
 	});
@@ -330,15 +340,15 @@ function checkManifestVersion(){
 function getManifestDBs(urls){
 	$("<div id=\"overlay\"><div id=\"overlay_contents\"><p>" + langs[lang].string_updating_info + "</p><p>" + langs[lang].string_downloading_info + " <span id=\"download_progress\">0%</span></p></div></div>").appendTo("body").fadeIn("slow", function(){$("#overlay_contents").slideDown();});
 
-	for(lang_item in lang_array){
-		url_string = "https://www.bungie.net" + urls[lang_array[lang_item]];
+	for(url in urls){
+		url_string = "https://www.bungie.net" + urls[url];
 
 		JSZipUtils.getBinaryContent(url_string, function(err, data){
 			jszip.loadAsync(data)
 				.then(function(result){
 					lang_files = Object.keys(result.files);
 					
-					if(lang_files.length == lang_array.length){
+					if(lang_files.length == Object.keys(urls).length){
 						for(i = 0; i < lang_files.length; i++){
 							jszip.file(result.files[Object.keys(result.files)[i]].name).async("uint8array", function showProgress(metadata){$("#download_progress").text(metadata.percent.toFixed(0) + "%");})
 								.then(function(data){
@@ -348,6 +358,8 @@ function getManifestDBs(urls){
 					}
 				});
 			});
+		
+		localStorage["db_name_" + url] = urls[url].substr(urls[url].lastIndexOf("/") + 1);
 	}
 }
 
@@ -371,7 +383,7 @@ function getTableData(database){
 
 	counter++;
 
-	if(counter == lang_array.length){
+	if(counter == Object.keys(langs_db).length){
 		localStorage.curr_ver = version;
 		$("#manifest_ver > span").text(version);
 		$("#download_progress").html(langs[lang].string_update_done).parents("#overlay_contents").delay(2000).slideUp(function(){$("#overlay").fadeOut("slow");});
@@ -663,7 +675,8 @@ function factionXP(){
 			1714509342: 0, //Future War Cult
 			2105209711: 0, //New Monarchy
 			3398051042: 0, //Dead Orbit
-			1761642340: 0  //Iron Banner
+			1761642340: 0, //Iron Banner
+			2677528157: 0  //Follower of Osiris
 		};
 
 		return $.ajax({
@@ -699,7 +712,10 @@ function factionXP(){
 						1270564331: {"xp": 100,  "faction": 1714509342}, //FWC Token
 						2270228604: {"xp": 100,  "faction": 2105209711}, //New Monarchy Token
 						2959556799: {"xp": 100,  "faction": 3398051042}, //Dead Orbit Token
-						1873857625: {"xp": 100,  "faction": 1761642340}  //Iron Banner Token
+						1873857625: {"xp": 100,  "faction": 1761642340}, //Iron Banner Token
+						3022799524: {"xp": 100,  "faction": 2677528157}, //Mercury Token
+						  49145143: {"xp": 50,   "faction": 2677528157}, //Simulation Seed
+						2386485406: {"xp": 100,  "faction": 2677528157}  //Simulation Bloom
 					};
 
 					for(item in items){
