@@ -24,10 +24,11 @@
 		<!--[if IE]>
 		<script type="text/JavaScript" src="js/jszip-utils-ie.min.js"></script>
 		<![endif]-->
+		<script type="text/JavaScript" src="js/languages.js"></script>
 		<script type="text/JavaScript" src="js/scripts.js"></script>
 	</head>
 	<body onload="randomIcon()" onfocus="checkRefresh()" onscroll="scrollRefreshButtons()">
-		<div id="app_info"><p>Destiny 2 Faction Checker</p><img id="language_flag" src="img/en-US.png" onclick="changeLanguage()" /></div>
+		<div id="app_info"><p>Destiny 2 Faction Checker</p><div id="top_icons"><img id="settings_icon" src="img/settings.png" onclick="showOptions()" /><img id="language_flag" src="img/en-US.png" onclick="changeLanguage()" /></div></div>
 		<a id="translate_link" href="https://github.com/setsuya/destiny2_factions#contributing-to-the-project" target="_blank"><div id="help_translate"><p id="string_translate"></p></div></a>
 		<div id="search_player">
 			<div id="network_selector" data-network="2" onclick="toggleNetworks()"><div id="network" class="network_psn"></div><div id="networks"><div id="network_psn" class="network_psn" data-network="2" onclick="changeNetwork(this)"></div><div id="network_xbox_live" class="network_xbox_live" data-network="1" onclick="changeNetwork(this)"></div><div id="network_bnet" class="network_bnet" data-network="4" onclick="changeNetwork(this)"></div></div></div><input type="text" id="player_name" placeholder="Username" onkeydown="checkEnter(event)" /><div id="search_profile" onclick="searchPlayer()"><img src="img/search.png" /></div>
@@ -49,7 +50,7 @@
 		</div>
 		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WAV4D2LP9HNB2" target="_blank"><div id="ramen_donate"><img src="img/ramen.png" /><p id="string_donate"></p></div></a>
 		<p id="github"><span id="string_github"></span> <a href="https://github.com/setsuya" target="_blank"><img src="img/github_logo.png" />Github</a>!</p>
-		<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsetsuya.github.io%2Fdestiny2_factions&layout=button&size=small&mobile_iframe=true&width=59&height=20&appId" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
 		<p id="manifest_ver">manifest v.<span>?????</span></p>
+		<div id="options"><div id="options_contents"><p id="string_show_xp_numbers" class="options_title"></p><div class="options_group"><input type="radio" id="xp_on" name="show_xp" data-display-xp="on" /><label for="xp_on" id="string_option_on"></label> <input type="radio" id="xp_off" name="show_xp" data-display-xp="off" checked /><label for="xp_off" id="string_option_off"></label></div><p id="string_show_refresh_interval" class="options_title">Refresh interval:</p><div class="options_group"><input type="radio" id="time_5min" name="refresh_interval" data-interval="5" checked /><label for="time_5min">5 min.</label> <input type="radio" id="time_10min" name="refresh_interval" data-interval="10" /><label for="time_10min">10 min.</label> <input type="radio" id="time_15min" name="refresh_interval" data-interval="15" /><label for="time_15min">15 min.</label></div><div id="string_apply" class="button" onclick="saveOptions()"></div></div></div>
 	</body>
 </html>

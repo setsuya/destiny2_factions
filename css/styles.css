@@ -66,10 +66,95 @@ body {
 	line-height: 40px;
 }
 
-#language_flag {
+#top_icons {
 	position: absolute;
 	right: 10px;
 	top: 4px;
+}
+
+#top_icons * {
+	margin: 0 5px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+#options {
+	box-sizing: border-box;
+	position: fixed;
+	z-index: 10;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	font: 16px "Istok Web", sans-serif;
+	text-align: center;
+	display: none;
+}
+
+#options_contents {
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	border-top: 4px solid #873044;
+	padding: 10px 20px 20px 20px;
+	background-color: rgba(50, 50, 50, 0.8);
+	box-shadow: 0 1px 1px #222 inset;
+	display: none;
+}
+
+.options_title {
+	margin: 0;
+	padding: 0;
+	font: 16px "Istok Web", sans-serif;
+	color: #fff;
+	text-shadow: 1px 1px 0 #000;
+	text-align: left;
+	line-height: 20px;
+}
+
+.options_group {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 10px 0;
+}
+
+.options_group input[type="radio"] {
+	display: none;
+}
+
+.options_group label {
+	box-sizing: border-box;
+	padding: 5px 10px;
+	background-color: #999;
+	box-shadow: 1px 1px 2px #000;
+	outline: 1px solid #000;
+	font: 12px monospace;
+	text-transform: uppercase;
+	color: #000;
+	cursor: pointer;
+	border: 1px solid #fff;
+}
+
+.options_group input[type="radio"]:checked + label {
+	background-color: #6b6;
+	text-shadow: none;
+	box-shadow: 1px 1px 2px #000 inset;
+}
+
+.button {
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 20px 0 0 0;
+	padding: 5px 15px;
+	background-color: #f0d751;
+	outline: 1px solid #000;
+	box-shadow:1px 1px 2px #000;
+	font: bold 14px monospace;
+	text-transform: uppercase;
+	letter-spacing: 4px;
 	cursor: pointer;
 }
 
@@ -607,12 +692,35 @@ body {
 .faction_xp {
 	box-sizing: border-box;
 	display: inline-block;
+	position: relative;
 	margin: 0 10px;
 	width: 44%;
 	height: 16px;
 	text-align: left;
 	background-color: #ddd;
 	outline: 1px solid #000;
+}
+
+.xp_numbers {
+	box-sizing: border-box;
+	position: absolute;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	z-index: 5;
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.numbers_on {
+	color: #000;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.numbers_off {
+	color: transparent;
+	background-color: transparent;
 }
 
 .xp_bar {
@@ -699,7 +807,7 @@ body {
 }
 
 #manifest_ver {
-	margin: 20px 0 0 0;
+	margin: 35px 0 0 0;
 	padding: 0;
 	text-align: right;
 	font: 10px monospace;
