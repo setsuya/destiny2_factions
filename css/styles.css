@@ -1,81 +1,339 @@
-html {
-	background-color: #444;
-}
+/*html {
+	font-size: 14px;
+}*/
 
 body {
-	text-align: center;
-	margin: 50px 10px 10px 10px;
+	font-family: "Istok Web", sans-serif;
 }
 
-#overlay {
-	box-sizing: border-box;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0);
-	z-index: 20;
-	display: none;
-}
-
-#overlay_contents {
-	box-sizing: border-box;
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	border-top: 4px solid #873044;
-	padding: 10px 20px 20px 20px;
-	background-color: rgba(50, 50, 50, 0.8);
-	box-shadow: 0 1px 1px #222 inset;
-	display: none;
-}
-
-#overlay_contents p {
-	margin: 0;
-	padding: 0;
-	font: 16px "Istok Web", sans-serif;
-	color: #fff;
+.text-shadow {
 	text-shadow: 1px 1px 0 #000;
-	text-align: right;
-	line-height: 20px;
 }
 
-#app_info {
-	box-sizing: border-box;
-	position: fixed;
-	z-index: 10;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 40px;
-	padding: 0 10px;
-	text-align: left;
-	box-shadow: 0 1px 2px #000;
+.bg-navy-blue {
 	background-color: #6082b6;
 }
-#app_info > p {
-	box-sizing: border-box;
-	position: relative;
-	margin: 0;
-	padding: 0;
-	font: 21px "Source Sans Pro", sans-serif;
-	color: #fff;
+
+.bg-dark-gray {
+	background-color: #444444;
+}
+
+.bg_xp {
+	background-color: #d0b731;
+}
+
+.bg_next_xp {
+	background-color: #85adad;
+}
+
+.bg-ps4 {
+	background-color: #337ab7;
+}
+
+.bg-xb1 {
+	background-color: #5cb85c;
+}
+
+.bg-bnet {
+	background-color: #00aeff;
+}
+
+.font-light-gray {
+	color: #999999;
+}
+
+.link-light-gray:link, .link-light-gray:visited, .link-light-gray:hover, .link-light-gray:active {
+	color: #999999;
+}
+
+.font-power-level {
+	color: #f0d751;
+}
+
+.box-shadow-b {
+	box-shadow: 0 1px 2px #000;
+}
+
+.box-shadow-br {
+	box-shadow: 1px 1px 0 #000;
+}
+
+.box-shadow-2-br {
+	box-shadow: 1px 1px 2px #000;
+}
+
+.text-shadow {
 	text-shadow: 1px 1px 0 #000;
-	line-height: 40px;
 }
 
-#top_icons {
-	position: absolute;
-	right: 10px;
-	top: 4px;
+.text-shadow-2 {
+	text-shadow: 2px 2px 0 #000;
 }
 
-#top_icons * {
-	margin: 0 5px;
-	vertical-align: middle;
+.font-logo {
+	font-family: "Source Sans Pro", sans-serif;
+}
+
+.font-10px {
+	font-size: 10px;
+}
+
+.font-12px {
+	font-size: 12px;
+}
+
+.font-14px {
+	font-size: 14px;
+}
+
+.font-16px {
+	font-size: 16px;
+}
+
+.font-18px {
+	font-size: 18px;
+}
+
+.font-21px {
+	font-size: 21px;
+}
+
+.font-24px {
+	font-size: 24px;
+}
+
+.font-32px {
+	font-size: 32px;
+}
+
+.no-decoration:link, .no-decoration:visited, .no-decoration:hover, .no-decoration:active {
+	text-decoration: none;
+}
+
+.h-20 {
+	height: 20%;
+}
+
+.h-60 {
+	height: 60%;
+}
+
+#top_options > img {
 	cursor: pointer;
+}
+
+.dropdown-item:hover {
+	background-color: #333333!important;
+	cursor: pointer;
+}
+
+.item_outline {
+	outline: 5px solid #f0d751;
+}
+
+#help_translate {
+	background-color: #f0d751;
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, transparent 55%);
+	box-shadow: 0 0 2px #000;
+}
+
+#string_warning {
+	display: none;
+	border: 1px solid #000;
+	border-radius: 5px;
+	background-color: #d0b731;
+}
+
+.loader {
+	font-variant: small-caps;
+}
+
+#char_list, #reward_list, #prog_factions, #milestone_list {
+	min-height: 84px;
+}
+
+.section_title {
+	font-family: Cousine, monospace;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	cursor: pointer;
+}
+
+#small_character, #small_clan, #small_milestone, #small_faction {
+	display: none;
+}
+
+#small_character > img {
+	width: 12px;
+	height: 12px;
+	margin: 0 5px 0 0;
+	vertical-align: middle;
+}
+
+.character {
+	width: 316px;
+	height: 64px;
+	background-size: 316px 64px;
+	cursor: pointer;
+}
+
+.character_class, .character_description {
+	padding-left: 60px;
+	line-height: 1;
+}
+
+.character_power, .character_level {
+	padding-right: 5px;
+	line-height: 1;
+}
+
+#progression_container {
+	padding: 2px 5px 5px 5px;
+}
+
+.level_progression_char {
+	background-color: #6b6;
+}
+
+#reload_buttons {
+	position: relative;
+	z-index: 10;
+	font-family: Cousine, monospace;
+	letter-spacing: 4px;
+	font-weight: bold;
+}
+
+.reload_hover {
+	background-color: rgba(68, 68, 68, 0.9);
+}
+
+#reload_info {
+	cursor: pointer;
+	background-color: #d0b731;
+	outline: 1px solid #000;
+}
+
+#reload_info_off {
+	cursor: default;
+	background-color: #333;
+	outline: 1px solid #000;
+	color: #444;
+	text-shadow: -1px -1px 0 #222;
+}
+
+#auto_reload {
+	cursor: pointer;
+	outline: 1px solid #000;
+}
+
+#auto_reload_off {
+	cursor: default;
+	background-color: #333;
+	outline: 1px solid #000;
+	color: #444;
+	text-shadow: -1px -1px 0 #222;
+}
+
+.repeat_on {
+	background-color: #6b6;
+	box-shadow: 1px 1px 2px #000 inset;
+}
+
+.repeat_off {
+	background-color: #999;
+	box-shadow: 1px 1px 2px #000;
+}
+
+#interval_info {
+	font: italic 12px "Istok Web", sans-serif;
+	letter-spacing: initial;
+	color: #999;
+	text-shadow: 1px 1px 0 #000;
+}
+
+.clan_engram {
+	width: 60px;
+	height: 60px;
+	background: url("../img/clan/clanEngram.png") center center/60px 60px no-repeat;
+}
+
+.acquired_engram {
+	background: url("../img/clan/earnedClanEngram.png") center center/60px 60px no-repeat;
+}
+
+.clan_engram > img {
+	width: 40px;
+	height: 40px;
+	margin: 10px;
+}
+
+.checkbox {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin: 0 5px;
+	border: 2px solid #444;
+	outline: 1px solid #999;
+}
+
+.checked {
+	background-color: #6b6;
+}
+
+.milestone:nth-child(even), .faction:nth-child(even) {
+	background-color: #ccc;
+}
+
+.milestone:nth-child(odd), .faction:nth-child(odd) {
+	background-color: #999;
+}
+
+.faction_img {
+	width: 100px;
+	height: 100px;
+}
+
+.faction_name, .faction_description {
+	line-height: 1;
+}
+
+.info_col > hr {
+	margin: 5px 0 10px 0;
+	border: 0;
+	background-image: linear-gradient(to right, #333 40%, transparent 70%);
+	height: 4px;
+}
+
+.level_number {
+	height: 16px;
+	line-height: 16px;
+}
+
+.faction_xp {
+	height: 16px;
+	background-color: #ddd;
+}
+
+.xp_numbers {
+	z-index: 5;
+	left: 0;
+	top: 0;
+	height: 16px;
+	line-height: 16px;
+}
+
+.numbers_on {
+	color: #000;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.numbers_off {
+	color: transparent;
+	background-color: transparent;
+}
+
+#manifest_ver {
+	font-family: "Cousine", monospace;
 }
 
 #options {
@@ -131,7 +389,7 @@ body {
 	background-color: #999;
 	box-shadow: 1px 1px 2px #000;
 	outline: 1px solid #000;
-	font: 12px monospace;
+	font: 12px Cousine, monospace;
 	text-transform: uppercase;
 	color: #000;
 	cursor: pointer;
@@ -152,665 +410,43 @@ body {
 	background-color: #f0d751;
 	outline: 1px solid #000;
 	box-shadow:1px 1px 2px #000;
-	font: bold 14px monospace;
+	font: bold 14px Cousine, monospace;
 	text-transform: uppercase;
 	letter-spacing: 4px;
 	cursor: pointer;
 }
 
-#translate_link:link, #translate_link:visited, #translate_link:hover, #translate_link:active {
-	text-decoration: none;
-}
-
-#help_translate {
+#overlay {
 	box-sizing: border-box;
-	padding: 7px;
-	background-color: #f0d751;
-	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, transparent 55%);
-	box-shadow: 0 0 2px #000;
-}
-
-#string_translate {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font: 12px Arial, sans-serif;
-	color: #000;
-	text-shadow: 1px 1px 0 #bbb;
-	text-align: center;
-}
-
-#search_player {
-	box-sizing: border-box;
-	display: inline-block;
-	box-shadow: 1px 1px 2px #000;	margin: 20px 0;
-}
-
-#search_player * {
-	vertical-align: top;
-}
-
-#player_name {
-	width: 200px;
-	height: 30px;
-	border: 0;
-	background-color: #fff;
-	padding: 0 5px;
-}
-
-#player_name:focus, #reload_info:focus {
-	outline: 0;
-}
-
-#search_profile {
-	box-sizing: border-box;
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	background-color: #fff;
-	cursor: pointer;
-}
-
-#search_profile img {
-	width: 24px;
-	height: 24px;
-	margin-top: 3px;
-}
-
-#network_selector {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	width: 45px;
-	height: 30px;
-	cursor: pointer;
-	background-color: #fff;
-}
-
-#network {
-	box-sizing: border-box;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
 	height: 100%;
-	box-shadow: 0 -10px 10px -10px #000 inset;
+	background-color: rgba(0, 0, 0, 0);
+	z-index: 20;
+	display: none;
 }
 
-#networks {
+#overlay_contents {
 	box-sizing: border-box;
 	position: absolute;
 	left: 0;
-	top: 100%;
-	z-index: 10;
-	display: none;
-}
-
-#networks > div {
-	box-sizing: border-box;
-	width: 45px;
-	height: 30px;
-	text-align: center;
-}
-
-#network_psn {
-	display: none;
-}
-
-.network_psn {
-	background: #337ab7 url("../img/ps_logo.png") center center/24px 24px no-repeat;
-}
-
-.network_xbox_live {
-	background: #5cb85c url("../img/xbox_logo.png") center center/24px 24px no-repeat;
-}
-
-.network_bnet {
-	background: #00aeff url("../img/bnet_logo.png") center center/24px 24px no-repeat;
-}
-
-#string_warning {
-	box-sizing: border-box;
-	width: 80%;
-	padding: 15px;
-	margin: 0 auto;
-	display: none;
-	border: 1px solid #000;
-	border-radius: 5px;
-	background-color: #d0b731;
-}
-
-#string_warning > p {
-	font: 14px Verdana, sans-serif;
-}
-
-.section_title {
-	box-sizing: border-box;
-	position: relative;
-	padding: 0 0 5px 10px;
-	text-align: left;
-	color: #999;
-	text-transform: uppercase;
-	letter-spacing: 4px;
-	border-bottom: 1px solid #999;
-	font: 14px monospace;
-	cursor: pointer;
-}
-
-#small_character > img, #small_faction > img {
-	width: 12px;
-	height: 12px;
-	margin: 0 5px 0 0;
-	vertical-align: middle;
-}
-
-#reload_buttons {
-	box-sizing: border-box;
-	position: relative;
-	z-index: 5;
-	margin: 20px auto;
-}
-
-.reload_hover {
-	background-color: rgba(68, 68, 68, 0.9);
-}
-
-#reload_info {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	width: 80%;
-	cursor: pointer;
-	background-color: #d0b731;
-	outline: 1px solid #000;
-	box-shadow: 1px 1px 2px #000;
-}
-
-#reload_info_off {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	width: 80%;
-	cursor: default;
-	background-color: #333;
-	outline: 1px solid #000;
-	box-shadow: 1px 1px 2px #000;
-}
-
-#auto_reload {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	width: 20%;
-	cursor: pointer;
-	outline: 1px solid #000;
-}
-
-#auto_reload_off {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	width: 20%;
-	cursor: default;
-	background-color: #333;
-	outline: 1px solid #000;
-}
-
-#reload_info > p, #auto_reload > p {
-	box-sizing: border-box;
-	padding: 10px 5px;
-	margin: 0;
-	font: bold 16px monospace;
-	text-transform: uppercase;
-	letter-spacing: 4px;
-}
-
-#reload_info_off > p, #auto_reload_off > p {
-	box-sizing: border-box;
-	padding: 10px 5px;
-	margin: 0;
-	font: bold 16px monospace;
-	text-transform: uppercase;
-	letter-spacing: 4px;
-	color: #444;
-	text-shadow: -1px -1px 0 #222;
-}
-
-.repeat_on {
-	background-color: #6b6;
-	box-shadow: 1px 1px 2px #000 inset;
-}
-
-.repeat_off {
-	background-color: #999;
-	box-shadow: 1px 1px 2px #000;
-}
-
-.arrow_symbol {
-	box-sizing: border-box;
-	display: inline-block;
-	text-align: center;
-}
-
-#interval_info {
-	box-sizing: border-box;
-	margin-top: 5px;
-	padding: 0 0 5px 0;
-	font: italic 12px Verdana, sans-serif;
-	color: #999;
-	text-shadow: 1px 1px 0 #000;
-}
-
-#char_list, #reward_list, #prog_factions, #milestone_list {
-	min-height: 84px;
-}
-
-.character_info {
-	box-sizing: border-box;
-	display: inline-block;
-}
-
-.character_info > p {
-	box-sizing: border-box;
-	margin: 0 0 10px 0;
-	color: #999;
-	font: 12px Verdana, sans-serif;
-	text-shadow: 1px 1px 0 #000;
-}
-
-.character {
-	box-sizing: border-box;
-	position: relative;
-	display: inline-block;
-	width: 316px;
-	height: 64px;
-	margin: 10px 10px 5px 10px;
-	cursor: pointer;
-	box-shadow: 1px 1px 2px #000;
-}
-
-.character_selected {
-	outline: 5px solid #f0d751;
-}
-
-.emblem_background {
-	position: absolute;
-	z-index: 0;
-	width: 316px;
-	height: 64px;
-}
-
-.character_power {
-	box-sizing: border-box;
-	position: relative;
-	display: inline-block;
-	z-index: 1;
-	width: 30%;
-	margin: 0;
-	padding: 0 5px;
-	color: #f0d751;
-	font: 32px Verdana, sans-serif;
-	text-align: right;
-	text-shadow: 2px 2px 0 #000;
-}
-
-.character_level {
-	box-sizing: border-box;
-	position: relative;
-	display: inline-block;
-	z-index: 1;
-	vertical-align: top;
-	width: 30%;
-	margin: 0;
-	padding: 0 5px;
-	color: #fff;
-	font: 10px Verdana, sans-serif;
-	text-align: right;
-	text-shadow: 1px 1px 0 #000;
-}
-
-.character_class {
-	box-sizing: border-box;
-	position: relative;
-	display: inline-block;
-	vertical-align: bottom;
-	z-index: 1;
-	width: 70%;
-	margin: 0;
-	padding: 0 5px 0 60px;
-	color: #fff;
-	font: 16px Verdana, sans-serif;
-	text-align: left;
-	text-shadow: 1px 1px 0 #000;
-}
-
-.character_description {
-	box-sizing: border-box;
-	position: relative;
-	display: inline-block;
-	z-index: 1;
-	vertical-align: top;
-	width: 70%;
-	margin: 0;
-	padding: 0 5px 0 60px;
-	color: #fff;
-	font: 10px Verdana, sans-serif;
-	text-align: left;
-	text-shadow: 1px 1px 0 #000;
-}
-
-.level_progression_char {
-	box-sizing: border-box;
-	display: block;
-	position: absolute;
+	bottom: 0;
 	width: 100%;
-	bottom: 5px;
-	padding: 0 5px;
-	z-index: 1;
-	text-align: center;
-	font: 14px Tahoma, sans-serif;
+	border-top: 4px solid #873044;
+	padding: 10px 20px 20px 20px;
+	background-color: rgba(50, 50, 50, 0.8);
+	box-shadow: 0 1px 1px #222 inset;
+	display: none;
 }
 
-.level_progression_char > hr {
-	box-sizing: border-box;
-	position: relative;
+#overlay_contents p {
 	margin: 0;
 	padding: 0;
-	height: 5px;
-	width: 100%;
-	border: 0;
-	background-color: #6b6;
-	box-shadow: 1px 1px 0 #000;
-	vertical-align: bottom;
-}
-
-.light_symbol {
-	font-size: 18px;
-}
-
-.clan_engram {
-	box-sizing: border-box;
-	display: inline-block;
-	width: 60px;
-	height: 60px;
-	background: url("../img/clan/clanEngram.png") center center/60px 60px no-repeat;
-	margin: 0 5px;
-}
-
-.acquired_engram {
-	background: url("../img/clan/earnedClanEngram.png") center center/60px 60px no-repeat;
-}
-
-.clan_engram > img {
-	width: 40px;
-	height: 40px;
-	margin: 10px;
-}
-
-#clan_contribution {
-	box-sizing: border-box;
-	margin: 10px 0;
-	padding: 0;
-	font: 14px monospace;
-	color: #999;
-}
-
-#clan_contribution * {
-	vertical-align: middle;
-	display: inline-block;
-}
-
-.checkbox {
-	box-sizing: border-box;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin: 0 5px;
-	border: 2px solid #444;
-	outline: 1px solid #999;
-}
-
-.checked {
-	background-color: #6b6;
-}
-
-.milestone {
-	box-sizing: border-box;
-	position: relative;
-	margin: 15px auto;
-	width: 95%;
-	box-shadow: 1px 1px 2px #000;
-}
-
-.milestone:nth-child(even) {
-	background-color: #ccc;
-}
-
-.milestone:nth-child(odd) {
-	background-color: #999;
-}
-
-.milestone > p {
-	padding: 5px 15px;
 	font: 16px "Istok Web", sans-serif;
-	color: #000;
-}
-
-.milestone_completed {
-	outline: 5px solid #f0d751;
-}
-
-.faction {
-	box-sizing: border-box;
-	position: relative;
-	margin: 15px auto;
-	width: 95%;
-	box-shadow: 1px 1px 2px #000;
-}
-
-.faction:nth-child(even) {
-	background-color: #ccc;
-}
-
-.faction:nth-child(odd) {
-	background-color: #999;
-}
-
-.faction_outline {
-	outline: 5px solid #f0d751;
-}
-
-.img_col, .info_col {
-	box-sizing: border-box;
-	display: inline-block;
-	vertical-align: top;
-}
-
-.info_col {
-	width: calc(100% - 100px);
-}
-
-.faction_img {
-	box-sizing: border-box;
-	width: 100px;
-	height: 100px;
-}
-
-.info_col > p {
-	box-sizing: border-box;
-	margin: 0;
-	font-family: "Istok Web", sans-serif;
-}
-
-.faction_name {
-	padding: 5px 15px;
-	font-size: 24px;
-	line-height: 24px;
-	font-weight: bold;
-	text-align: left;
-}
-
-.faction_description {
-	padding: 0 15px 5px 15px;
-	font-size: 12px;
-	line-height: 12px;
-	font-style: italic;
-	text-align: left;
-}
-
-.info_col > hr {
-	box-sizing: border-box;
-	margin: 0 0 10px 10px;
-	border: 0;
-	background-image: linear-gradient(to right, #333 40%, transparent 70%);
-	height: 4px;
-}
-
-.level_progression {
-	box-sizing: border-box;
-	display: block;
-	position: relative;
-	padding: 0 5px;
-	z-index: 1;
-	text-align: center;
-	margin-bottom: 10px;
-	font: 14px Tahoma, sans-serif;
-}
-
-.level_progression * {
-	vertical-align: middle;
-}
-
-.level_number {
-	box-sizing: border-box;
-	display: inline-block;
-}
-
-.extra_levels {
-	box-sizing: border-box;
-	display: inline-block;
-	font-weight: bold;
-}
-
-.faction_xp {
-	box-sizing: border-box;
-	display: inline-block;
-	position: relative;
-	margin: 0 10px;
-	width: 44%;
-	height: 16px;
-	text-align: left;
-	background-color: #ddd;
-	outline: 1px solid #000;
-}
-
-.xp_numbers {
-	box-sizing: border-box;
-	position: absolute;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	z-index: 5;
-	text-align: center;
-	font-size: 12px;
-	line-height: 16px;
-}
-
-.numbers_on {
-	color: #000;
-	background-color: rgba(255, 255, 255, 0.3);
-}
-
-.numbers_off {
-	color: transparent;
-	background-color: transparent;
-}
-
-.xp_bar {
-	box-sizing: border-box;
-	display: inline-block;
-	height: 16px;
-	background-color: #d0b731;
-	vertical-align: top;
-}
-
-.next_xp_bar {
-	box-sizing: border-box;
-	display: inline-block;
-	height: 16px;
-	background-color: #85adad;
-	vertical-align: top;
-}
-
-.faction_xp_extra_left {
-	box-sizing: border-box;
-	display: inline-block;
-	width: calc(28% - 10px);
-	text-align: right;
-}
-
-.faction_xp_extra_right {
-	box-sizing: border-box;
-	display: inline-block;
-	width: calc(28% - 10px);
-	text-align: left;
-}
-
-.loader {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
-	color: #999;
-	text-transform: uppercase;
-	letter-spacing: 4px;
-	font: 14px monospace;
-}
-
-#ramen_donate {
-	box-sizing: border-box;
-	display: inline-block;
-	margin-top: 20px;
-	text-align: center;
-	cursor: pointer;
-}
-
-#ramen_donate > img {
-	border-radius: 50%;
-}
-
-#ramen_donate > p, #github {
-	box-sizing: border-box;
-	position: relative;
-	padding: 0;
-	margin: 5px 0;
-	text-align: center;
-	color: #999;
-	font: 12px monospace;
-}
-
-#github {
-	box-sizing: border-box;
-	position: relative;
-	padding: 0;
-	margin: 20px 0;
-	text-align: center;
-	color: #999;
-	font: 12px monospace;
-}
-
-#github img {
-	vertical-align: bottom;
-	width: 18px;
-	height: 18px;
-}
-
-#github a:link, #github a:visited, #github a:hover, #github a:active {
-	text-decoration: underline;
-	color: #999;
-}
-
-#manifest_ver {
-	margin: 35px 0 0 0;
-	padding: 0;
-	text-align: right;
-	font: 10px monospace;
-	color: #999;
+	color: #fff;
 	text-shadow: 1px 1px 0 #000;
+	text-align: right;
+	line-height: 20px;
 }

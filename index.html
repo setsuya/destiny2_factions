@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 	<head>
 		<title>Destiny 2 Faction Checker</title>
-		<meta charset="UTF-8">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="Destiny 2 Faction Checker" />
 		<meta property="og:description" content="Keep track of your characters' progress with your clan, milestones and factions in Destiny 2." />
@@ -13,11 +14,14 @@
 		<meta property="og:image:height" content="630" />
 		<link rel="icon" type="image/png" sizes="32x32" href="img/app_icon_192.png">
 		<link rel="manifest" href="manifest.json">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Cousine" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 		<link href="css/styles.css" rel="stylesheet">
-		<script type="text/JavaScript" src="js/jquery.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 		<script type="text/JavaScript" src="js/sql.js"></script>
 		<script type="text/JavaScript" src="js/jszip.min.js"></script>
 		<script type="text/JavaScript" src="js/jszip-utils.min.js"></script>
@@ -27,30 +31,146 @@
 		<script type="text/JavaScript" src="js/languages.js"></script>
 		<script type="text/JavaScript" src="js/scripts.js"></script>
 	</head>
-	<body onload="randomIcon()" onfocus="checkRefresh()" onscroll="scrollRefreshButtons()">
-		<div id="app_info"><p>Destiny 2 Faction Checker</p><div id="top_icons"><img id="settings_icon" src="img/settings.png" onclick="showOptions()" /><img id="language_flag" src="img/en-US.png" onclick="changeLanguage()" /></div></div>
-		<a id="translate_link" href="https://github.com/setsuya/destiny2_factions#contributing-to-the-project" target="_blank"><div id="help_translate"><p id="string_translate"></p></div></a>
-		<div id="search_player">
-			<div id="network_selector" data-network="2" onclick="toggleNetworks()"><div id="network" class="network_psn"></div><div id="networks"><div id="network_psn" class="network_psn" data-network="2" onclick="changeNetwork(this)"></div><div id="network_xbox_live" class="network_xbox_live" data-network="1" onclick="changeNetwork(this)"></div><div id="network_bnet" class="network_bnet" data-network="4" onclick="changeNetwork(this)"></div></div></div><input type="text" id="player_name" placeholder="Username" onkeydown="checkEnter(event)" /><div id="search_profile" onclick="searchPlayer()"><img src="img/search.png" /></div>
+	<body class="bg-dark-gray" onload="randomIcon()" onfocus="checkRefresh()" onscroll="scrollRefreshButtons()">
+		<!-- Start of top banner -->
+		<div class="navbar navbar-expand px-2 py-1 bg-navy-blue box-shadow-b sticky-top">
+			<div class="font-logo navbar-brand font-21px text-light p-0 text-shadow">Destiny 2 Faction Checker</div>
+			<div id="top_options" class="ml-auto"><img class="mx-1" src="img/settings.png" onclick="showOptions()" /><img id="language_flag" class="mx-1" src="img/en-US.png" onclick="changeLanguage()" /></div>
 		</div>
-		<div id="string_warning"></div>
-		<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_characters"></span><span id="small_character"></span></p>
-		<div id="char_list"></div>
-		<div id="reload_div"><div id="reload_buttons"><div id="reload_info_off"><p><span id="string_refresh"></span></p></div><div id="auto_reload_off" class="repeat_off"><p><span id="string_auto_refresh"></span></p></div></div></div>
-		<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_rewards"></span><span id="small_clan"></span></p>
-		<div id="reward_list">
-			<div id="clan_1977965959" class="clan_engram"><img src="img/clan/nightfall.png" /></div><div id="clan_788707520" class="clan_engram"><img src="img/clan/pvp.png" /></div><div id="clan_84088458" class="clan_engram"><img src="img/clan/raid.png" /></div><div id="clan_4012243269" class="clan_engram"><img src="img/clan/trials.png" /></div>
-			<div id="clan_contribution"><div class="checkbox"></div><p id="string_clan_xp"></p><p>:0000/5000</p></div>
+		<!-- End of top banner -->
+		<!-- Start of translation help -->
+		<div class="container my-3 text-center">
+			<div id="help_translate"><span class="font-12px py-1 m-0"><a class="text-dark" href="https://github.com/setsuya/destiny2_factions#contributing-to-the-project" target="_blank"><span id="string_translate"></span></a></span></div>
 		</div>
-		<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_milestones"></span><span id="small_milestone"></span></p>
-		<div id="milestone_list"></div>
-		<div id="char_info">
-			<p class="section_title" onclick="toggleSection(this)"><span class="arrow_symbol">&#9661;</span>/<span id="string_factions"></span><span id="small_faction"></span></p>
-			<div id="prog_factions"></div>
+		<!-- End of translation help -->
+		<!-- Start of search -->
+		<div class="container my-4">
+			<div class="row justify-content-center">
+				<div class="col-10 col-md-6 col-lg-4">
+					<div class="input-group box-shadow-2-br">
+						<div class="input-group-btn">
+							<button type="button" id="network_selector" class="btn btn-sm dropdown-toggle py-0 border-0 text-white bg-ps4" data-toggle="dropdown" data-network="2" data-class="ps4"><img src="img/ps4_logo.png" style="height: 28px;"></button>
+							<ul class="dropdown-menu p-0 w-100 text-center" style="min-width: auto;">
+								<li class="dropdown-item p-0 py-1 bg-ps4" data-network="2" data-class="ps4" onclick="changeNetwork(this)"><img src="img/ps4_logo.png" style="height: 28px;"></li>
+								<li class="dropdown-item p-0 py-1 bg-xb1" data-network="1" data-class="xb1" onclick="changeNetwork(this)"><img src="img/xb1_logo.png" style="height: 28px;"></li>
+								<li class="dropdown-item p-0 py-1 bg-bnet" data-network="4" data-class="bnet" onclick="changeNetwork(this)"><img src="img/bnet_logo.png" style="height: 28px;"></li>
+							</ul>
+						</div>
+						<input type="text" id="player_name" class="form-control form-control-sm bg-white border-0" placeholder="Username" onkeydown="checkEnter(event)">
+						<div class="input-group-btn">
+							<button type="button" id="search_profile" class="btn btn-sm bg-white py-0 border-0" onclick="searchPlayer()"><img src="img/search.png" style="height: 22px;" /></button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WAV4D2LP9HNB2" target="_blank"><div id="ramen_donate"><img src="img/ramen.png" /><p id="string_donate"></p></div></a>
-		<p id="github"><span id="string_github"></span> <a href="https://github.com/setsuya" target="_blank"><img src="img/github_logo.png" />Github</a>!</p>
-		<p id="manifest_ver">manifest v.<span>?????</span></p>
-		<div id="options"><div id="options_contents"><p id="string_show_xp_numbers" class="options_title"></p><div class="options_group"><input type="radio" id="xp_on" name="show_xp" data-display-xp="on" /><label for="xp_on" id="string_option_on"></label> <input type="radio" id="xp_off" name="show_xp" data-display-xp="off" checked /><label for="xp_off" id="string_option_off"></label></div><p id="string_show_refresh_interval" class="options_title">Refresh interval:</p><div class="options_group"><input type="radio" id="time_5min" name="refresh_interval" data-interval="5" checked /><label for="time_5min">5 min.</label> <input type="radio" id="time_10min" name="refresh_interval" data-interval="10" /><label for="time_10min">10 min.</label> <input type="radio" id="time_15min" name="refresh_interval" data-interval="15" /><label for="time_15min">15 min.</label></div><div id="string_apply" class="button" onclick="saveOptions()"></div></div></div>
+		<!-- End of search -->
+		<!-- Start of warning -->
+		<div class="container my-4">
+			<div class="row justify-content-center">
+				<div id="string_warning" class="col-10 pt-2">
+					
+				</div>
+			</div>
+		</div>
+		<!-- End of warning -->
+		<!-- Start of characters -->
+		<div class="container-fluid mb-4">
+			<div class="row" onclick="toggleSection(this)">
+				<div class="section_title col font-light-gray font-14px border border-secondary border-top-0 border-left-0 border-right-0"><span class="arrow_symbol align-middle">&#9661;</span>/<span id="string_characters"></span><span id="small_character"></span></div>
+			</div>
+			<div id="char_list" class="row justify-content-center mt-2"></div>
+		</div>
+		<!-- End of characters -->
+		<!-- Start of refresh buttons -->
+		<div id="reload_div" class="container mb-4">
+			<div id="reload_buttons" class="row justify-content-center">
+				<div id="reload_info_off" class="col-8 col-md-10 p-0 text-center box-shadow-2-br"><p class="m-0 py-2 text-uppercase"><span id="string_refresh"></span></p></div>
+				<div id="auto_reload_off" class="repeat_off col-3 col-md-2 p-0 text-center"><p class="m-0 py-2 text-uppercase"><span id="string_auto_refresh"></span></p></div>
+			</div>
+		</div>
+		<!-- End of refresh buttons -->
+		<!-- Start of clan -->
+		<div class="container-fluid mb-4">
+			<div class="row" onclick="toggleSection(this)">
+				<div class="section_title col font-light-gray font-14px border border-secondary border-top-0 border-left-0 border-right-0"><span class="arrow_symbol align-middle">&#9661;</span>/<span id="string_rewards"></span><span id="small_clan"></span></div>
+			</div>
+			<div class="row justify-content-center mt-2">
+				<div id="reward_list" class="col-11 col-md-12 text-center">
+					<div class="row justify-content-center">
+						<div id="clan_1977965959" class="clan_engram col-auto p-0 m-1">
+							<img src="img/clan/nightfall.png" />
+						</div>
+						<div id="clan_788707520" class="clan_engram col-auto p-0 m-1">
+							<img src="img/clan/pvp.png" />
+						</div>
+						<div id="clan_84088458" class="clan_engram col-auto p-0 m-1">
+							<img src="img/clan/raid.png" />
+						</div>
+						<div id="clan_4012243269" class="clan_engram col-auto p-0 m-1">
+							<img src="img/clan/trials.png" />
+						</div>
+					</div>
+				</div>
+				<div id="clan_contribution" class="col-11 col-md-12 my-2 text-center font-14px font-light-gray">
+					<div class="checkbox align-middle"></div> <span class="align-middle"><span id="string_clan_xp">Clan XP</span><span id="contribution_values">: 0000/5000</span></span>
+				</div>
+			</div>
+		</div>
+		<!-- End of clan -->
+		<!-- Start of milestones -->
+		<div class="container-fluid mb-4">
+			<div class="row" onclick="toggleSection(this)">
+				<div class="section_title col font-light-gray font-14px border border-secondary border-top-0 border-left-0 border-right-0"><span class="arrow_symbol align-middle">&#9661;</span>/<span id="string_milestones"></span><span id="small_milestone"></span></div>
+			</div>
+			<div class="row justify-content-center mt-2">
+				<div class="col-11 col-md-12 text-center">
+					<div id="milestone_list" class="row justify-content-center"></div>
+				</div>
+			</div>
+		</div>
+		<!-- End of milestones -->
+		<!-- Start of factions -->
+		<div class="container-fluid mb-4">
+			<div class="row" onclick="toggleSection(this)">
+				<div class="section_title col font-light-gray font-14px border border-secondary border-top-0 border-left-0 border-right-0"><span class="arrow_symbol align-middle">&#9661;</span>/<span id="string_factions"></span><span id="small_faction"></span></div>
+			</div>
+			<div class="row justify-content-center mt-2">
+				<div class="col-11 col-md-12 text-center">
+					<div id="prog_factions" class="row justify-content-center"></div>
+				</div>
+			</div>
+		</div>
+		<!-- End of factions -->
+		<!-- Start of footer -->
+		<div class="container-fluid my-2 text-center">
+			<div class="row mb-2">
+				<div id="ramen_donate" class="col-12">
+					<a class="no-decoration" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WAV4D2LP9HNB2"><img class="rounded-circle" src="img/ramen.png" /><p id="string_donate" class="m-0 font-12px font-light-gray"></p></a>
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col-12">
+					<p class="m-0 font-12px font-light-gray"><span id="string_github"></span> <a class="link-light-gray" href="https://github.com/setsuya"><img class="align-baseline" style="width: 18px; height: 18px;" src="img/github_logo.png" />Github</a>!</p>
+				</div>
+			</div>
+			<div class="row mt-4 mb-2">
+				<div class="col-12">
+					<p id="manifest_ver" class="m-0 text-right font-10px font-light-gray text-shadow">manifest v.<span>?????</span></p>
+				</div>
+			</div>
+		</div>
+		<!-- End of footer -->
+		<!-- Start of options -->
+		<div id="options">
+			<div id="options_contents">
+				<p id="string_show_xp_numbers" class="options_title"></p>
+				<div class="options_group"><input type="radio" id="xp_on" name="show_xp" data-display-xp="on" /><label for="xp_on" id="string_option_on"></label> <input type="radio" id="xp_off" name="show_xp" data-display-xp="off" checked /><label for="xp_off" id="string_option_off"></label></div>
+				<p id="string_show_refresh_interval" class="options_title"></p>
+				<div class="options_group"><input type="radio" id="time_5min" name="refresh_interval" data-interval="5" checked /><label for="time_5min">5 min.</label> <input type="radio" id="time_10min" name="refresh_interval" data-interval="10" /><label for="time_10min">10 min.</label> <input type="radio" id="time_15min" name="refresh_interval" data-interval="15" /><label for="time_15min">15 min.</label></div>
+				<div id="string_apply" class="button" onclick="saveOptions()"></div>
+			</div>
+		</div>
+		<!-- End of options -->
 	</body>
 </html>
