@@ -70,7 +70,8 @@ var factions_xp = {
 	2105209711: 0, //New Monarchy
 	3398051042: 0, //Dead Orbit
 	1761642340: 0, //Iron Banner
-	2677528157: 0  //Follower of Osiris
+	2677528157: 0, //Follower of Osiris
+	3859807381: 0  //Voice of Rasputin
 };
 
 function randomIcon(){
@@ -644,7 +645,8 @@ function factionXP(){
 			2105209711: 0, //New Monarchy
 			3398051042: 0, //Dead Orbit
 			1761642340: 0, //Iron Banner
-			2677528157: 0  //Follower of Osiris
+			2677528157: 0, //Follower of Osiris
+			3859807381: 0  //Voice of Rasputin
 		};
 
 		return $.ajax({
@@ -683,7 +685,10 @@ function factionXP(){
 						1873857625: {"xp": 100,  "faction": 1761642340}, //Iron Banner Token
 						3022799524: {"xp": 100,  "faction": 2677528157}, //Mercury Token
 						  49145143: {"xp": 50,   "faction": 2677528157}, //Simulation Seed
-						2386485406: {"xp": 250,  "faction": 2677528157}  //Simulation Bloom
+						2386485406: {"xp": 250,  "faction": 2677528157}, //Simulation Bloom
+						3135658658: {"xp": 100,  "faction": 3859807381}, //Mars Token
+						  31293053: {"xp": 50,   "faction": 3859807381}, //Seraphite
+						 685095924: {"xp": 250,  "faction": 3859807381}  //Harmonic Seraphite
 					};
 
 					for(item in items){
