@@ -55,7 +55,7 @@ var timer_time = 300000;
 var original_button_position = 0;
 var version = "";
 
-var factions_xp = {
+/*var factions_xp = {
 	  24856709: 0, //Leviathan
 	 469305170: 0, //The Nine
 	 611314723: 0, //Vanguard Tactical
@@ -72,6 +72,25 @@ var factions_xp = {
 	1761642340: 0, //Iron Banner
 	2677528157: 0, //Follower of Osiris
 	3859807381: 0  //Voice of Rasputin
+};*/
+
+var factions_xp = {
+	  24856709: {"xp": 0, "items_total": {1505278293: 0}}, //Leviathan
+	 469305170: {"xp": 0, "items_total": {885593286: 0}}, //The Nine
+	 611314723: {"xp": 0, "items_total": {3899548068: 0}}, //Vanguard Tactical
+	 697030790: {"xp": 0, "items_total": {183980811: 0}}, //The Crucible
+	 828982195: {"xp": 0, "items_total": {3825769808: 0, 3756389242: 0, 1305274547: 0}}, //Fragmented Researcher
+	1021210278: {"xp": 0, "items_total": {685157383: 0, 685157381: 0}}, //Gunsmith
+	1660497607: {"xp": 0, "items_total": {3201839676: 0, 2949414982: 0, 3487922223: 0}}, //Exodus Black AI
+	3231773039: {"xp": 0, "items_total": {3957264072: 0}}, //Vanguard Research
+	4196149087: {"xp": 0, "items_total": {494493680: 0, 461171930: 0, 2014411539: 0}}, //Field Commander
+	4235119312: {"xp": 0, "items_total": {2640973641: 0, 478751073: 0, 950899352: 0}}, //Dead Zone Scout
+	1714509342: {"xp": 0, "items_total": {1270564331: 0}}, //Future War Cult
+	2105209711: {"xp": 0, "items_total": {2270228604: 0}}, //New Monarchy
+	3398051042: {"xp": 0, "items_total": {2959556799: 0}}, //Dead Orbit
+	1761642340: {"xp": 0, "items_total": {1873857625: 0}}, //Iron Banner
+	2677528157: {"xp": 0, "items_total": {3022799524: 0, 49145143: 0, 2386485406: 0}}, //Follower of Osiris
+	3859807381: {"xp": 0, "items_total": {3135658658: 0, 31293053: 0, 685095924: 0}}  //Voice of Rasputin
 };
 
 function randomIcon(){
@@ -513,7 +532,7 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 									}
 
 									//factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"faction_xp_extra_left\"><div class=\"level_number\">" + (factions[data.id].level) + "</div></div><div class=\"faction_xp\"><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + "\">" + factions[data.id].progressToNextLevel + "/" + factions[data.id].nextLevelAt + "</p><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"faction_xp_extra_right\"><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div><div class=\"extra_levels\">" + extra_levels + "</div></div></div></div></div>";
-									factions_result += "<div class=\"faction" + outline_class + " col-12 col-md-11 col-lg-5 my-2 m-lg-3 box-shadow-2-br\"><div class=\"row\"><div class=\"img_col col-auto p-0\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col col pb-2 text-left\"><p class=\"faction_name m-0 my-1 pl-2 font-24px font-weight-bold\">" + data.name + "</p><p class=\"faction_description m-0 pl-2 font-12px font-italic\">" + data.description + "</p><hr /><div class=\"row font-14px\"><div class=\"level_number col-3 text-right p-0\">" + (factions[data.id].level) + "&nbsp;</div><div class=\"faction_xp col-6 p-0 border border-dark\"" + extra_style + "><div class=\"xp_bar bg_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar bg_next_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + remaining_experience + "%;\"></div><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + " position-absolute m-0 p-0 w-100 h-100 font-12px text-center font-weight-bold\">" + factions[data.id].progressToNextLevel + "/" + factions[data.id].nextLevelAt + "</p></div><div class=\"level_number col-3 text-left p-0\">&nbsp;" + (factions[data.id].level + 1) + "<span class=\"extra_levels font-weight-bold\">" + extra_levels + "</span></div></div></div></div></div>";
+									factions_result += "<div class=\"faction" + outline_class + " col-12 col-md-11 col-lg-5 my-2 m-lg-3 box-shadow-2-br\"><div class=\"row\"><div class=\"img_col col-auto p-0\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col col pb-2 text-left\"><p class=\"faction_name m-0 my-1 pl-2 font-24px font-weight-bold\">" + data.name + "</p><p class=\"faction_description m-0 pl-2 font-12px font-italic\">" + data.description + "</p><hr /><div class=\"row font-14px\"><div class=\"level_number col-3 text-right p-0\">" + (factions[data.id].level) + "&nbsp;</div><div class=\"faction_xp col-6 p-0 border border-dark\"" + extra_style + "><div class=\"xp_bar bg_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar bg_next_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + remaining_experience + "%;\"></div><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + " position-absolute m-0 p-0 w-100 h-100 font-12px text-center font-weight-bold\">" + factions[data.id].progressToNextLevel + "/" + factions[data.id].nextLevelAt + "</p></div><div class=\"level_number col-3 text-left p-0\">&nbsp;" + (factions[data.id].level + 1) + "<span class=\"extra_levels font-weight-bold\">" + extra_levels + "</span></div></div><div class=\"row font-10px\"><div class=\"col text-center pt-1\">" + faction_info.getFactionMaterials(data.id) + "</div></div></div></div></div>";
 									$("#prog_factions").html(factions_result);
 								}
 							});
@@ -630,7 +649,7 @@ function getMilestoneInfo(milestones){
 
 function factionXP(){
 	this.populateXP = function(membership_type, membership_id){
-		factions_xp = {
+		/*factions_xp = {
 			  24856709: 0, //Leviathan
 			 469305170: 0, //The Nine
 			 611314723: 0, //Vanguard Tactical
@@ -647,6 +666,25 @@ function factionXP(){
 			1761642340: 0, //Iron Banner
 			2677528157: 0, //Follower of Osiris
 			3859807381: 0  //Voice of Rasputin
+		};*/
+
+		factions_xp = {
+			  24856709: {"xp": 0, "items_total": {1505278293: 0}}, //Leviathan
+			 469305170: {"xp": 0, "items_total": {885593286: 0}}, //The Nine
+			 611314723: {"xp": 0, "items_total": {3899548068: 0}}, //Vanguard Tactical
+			 697030790: {"xp": 0, "items_total": {183980811: 0}}, //The Crucible
+			 828982195: {"xp": 0, "items_total": {3825769808: 0, 3756389242: 0, 1305274547: 0}}, //Fragmented Researcher
+			1021210278: {"xp": 0, "items_total": {685157383: 0, 685157381: 0}}, //Gunsmith
+			1660497607: {"xp": 0, "items_total": {3201839676: 0, 2949414982: 0, 3487922223: 0}}, //Exodus Black AI
+			3231773039: {"xp": 0, "items_total": {3957264072: 0}}, //Vanguard Research
+			4196149087: {"xp": 0, "items_total": {494493680: 0, 461171930: 0, 2014411539: 0}}, //Field Commander
+			4235119312: {"xp": 0, "items_total": {2640973641: 0, 478751073: 0, 950899352: 0}}, //Dead Zone Scout
+			1714509342: {"xp": 0, "items_total": {1270564331: 0}}, //Future War Cult
+			2105209711: {"xp": 0, "items_total": {2270228604: 0}}, //New Monarchy
+			3398051042: {"xp": 0, "items_total": {2959556799: 0}}, //Dead Orbit
+			1761642340: {"xp": 0, "items_total": {1873857625: 0}}, //Iron Banner
+			2677528157: {"xp": 0, "items_total": {3022799524: 0, 49145143: 0, 2386485406: 0}}, //Follower of Osiris
+			3859807381: {"xp": 0, "items_total": {3135658658: 0, 31293053: 0, 685095924: 0}}  //Voice of Rasputin
 		};
 
 		return $.ajax({
@@ -694,7 +732,8 @@ function factionXP(){
 					for(item in items){
 						for(faction_item in faction_items){
 							if(items[item].itemHash == parseInt(faction_item)){
-								factions_xp[(faction_items[faction_item].faction).toString()] += items[item].quantity * faction_items[faction_item].xp;
+								factions_xp[(faction_items[faction_item].faction).toString()].xp += items[item].quantity * faction_items[faction_item].xp;
+								factions_xp[(faction_items[faction_item].faction).toString()].items_total[items[item].itemHash] = items[item].quantity;
 							}
 						}
 					}
@@ -707,6 +746,16 @@ function factionXP(){
 	}
 
 	this.getFactionXP = function(faction_id){
-		return factions_xp[faction_id];
+		return factions_xp[faction_id].xp;
+	}
+
+	this.getFactionMaterials = function(faction_id){
+		result = "";
+
+		for(item in factions_xp[faction_id].items_total){
+			result += "<img src=\"img/items/" + item + ".jpg\" class=\"material_img\" /> &times;" + factions_xp[faction_id].items_total[item] + " ";
+		}
+
+		return result;
 	}
 }

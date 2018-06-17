@@ -304,6 +304,12 @@ body {
 	height: 4px;
 }
 
+.material_img {
+	width: 18px;
+	height: 18px;
+	box-shadow: 1px 1px 1px 0;
+}
+
 .level_number {
 	height: 16px;
 	line-height: 16px;
