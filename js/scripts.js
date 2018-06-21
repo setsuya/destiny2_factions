@@ -39,6 +39,7 @@ $(document).ready(function(){
 	original_button_position = $("#reload_div").offset().top;
 
 	checkManifestVersion();
+	lastCharacter("load");
 });
 
 var jszip = new JSZip();
@@ -54,25 +55,6 @@ var timer_id = 0;
 var timer_time = 300000;
 var original_button_position = 0;
 var version = "";
-
-/*var factions_xp = {
-	  24856709: 0, //Leviathan
-	 469305170: 0, //The Nine
-	 611314723: 0, //Vanguard Tactical
-	 697030790: 0, //The Crucible
-	 828982195: 0, //Fragmented Researcher
-	1021210278: 0, //Gunsmith
-	1660497607: 0, //Exodus Black AI
-	3231773039: 0, //Vanguard Research
-	4196149087: 0, //Field Commander
-	4235119312: 0, //Dead Zone Scout
-	1714509342: 0, //Future War Cult
-	2105209711: 0, //New Monarchy
-	3398051042: 0, //Dead Orbit
-	1761642340: 0, //Iron Banner
-	2677528157: 0, //Follower of Osiris
-	3859807381: 0  //Voice of Rasputin
-};*/
 
 var factions_xp = {
 	  24856709: {"xp": 0, "items_total": {1505278293: 0}}, //Leviathan
@@ -365,8 +347,21 @@ function getTableData(database){
 	}
 }
 
+function lastCharacter(action){
+	if(action == "load"){
+		if("last_char_info" in localStorage){
+			$("li[data-network=" + JSON.parse(localStorage.last_char_info)[0] + "]").click();
+			$("#player_name").val(JSON.parse(localStorage.last_char_info)[1]);
+			searchPlayer();
+		}
+	}else{
+		localStorage.last_char_info = JSON.stringify([$("#network_selector").attr("data-network"), $("#player_name").val()]);
+	}
+}
+
 function searchPlayer(){
 	if($("#player_name").val() != ""){
+		lastCharacter("save");
 		openAllSections();
 
 		platform = $("#network_selector").attr("data-network");
@@ -443,8 +438,6 @@ function showCharacterInfoBanner(membership_type, membership_id, character_id, c
 	class_list = [langs[lang].string_titan, langs[lang].string_hunter, langs[lang].string_warlock];
 	race_list = [langs[lang].string_human, langs[lang].string_awoken, langs[lang].string_exo];
 
-	//"<div class=\"character_info\"><div class=\"character\" data-emblem=\"" + emblem_image + "\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><img class=\"emblem_background\" src=\"https://www.bungie.net" + background_image + "\" /><p class=\"character_class\">" + class_list[character_class] + "</p><p class=\"character_power\"><span class=\"light_symbol\">&#x2726;</span>" + character_power + "</p><p class=\"character_description\">" + gender_list[character_gender] + " " + race_list[character_race] + "</p><p class=\"character_level\">" + langs[lang].string_level + " " + character_level + "</p><div class=\"level_progression_char\"><hr style=\"width: " + next_level_progression + "%\" /></div></div><p>" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>"
-
 	character = "<div class=\"character_info col-auto text-center p-2\"><div class=\"character box-shadow-2-br m-auto\" data-emblem=\"" + emblem_image + "\" style=\"background-image: url('https://www.bungie.net" + background_image + "');\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this);\"><div class=\"container h-100 p-0\"><div class=\"row m-0 h-60\"><div class=\"col-8 p-0 h-100\"><div class=\"row h-100 m-0 p-0 align-items-end\"><div class=\"character_class font-16px col text-left text-white text-shadow\">" + class_list[character_class] + "</div></div></div><div class=\"col-4 p-0 h-100\"><div class=\"row h-100 m-0 p-0 align-items-end\"><div class=\"character_power font-32px font-power-level col text-right text-shadow-2\"><span class=\"light_symbol font-18px align-top\">&#x2726;</span>" + character_power + "</div></div></div></div><div class=\"row m-0 h-20\"><div class=\"col-8 p-0 h-100\"><div class=\"row h-100 m-0 p-0 align-items-start\"><div class=\"character_description font-10px col text-left text-white text-shadow\">" + gender_list[character_gender] + " " + race_list[character_race] + "</div></div></div><div class=\"col-4 p-0 h-100\"><div class=\"row h-100 m-0 p-0 align-items-start\"><div class=\"character_level font-10px col text-right text-white text-shadow\">" + langs[lang].string_level + " " + character_level + "</div></div></div></div><div class=\"row m-0 h-20\"><div id=\"progression_container\" class=\"col h-100\"><div class=\"level_progression_char row m-0 h-100 box-shadow-br\" style=\"width: " + next_level_progression + "%;\"></div></div></div></div></div><p class=\"m-0 mt-1 font-light-gray font-12px text-shadow\">" + langs[lang].string_total_time + ": " + convertTime(total_time) + "</p></div>";
 
 	$(character).appendTo("#char_list");
@@ -484,16 +477,13 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 
 					factions = data.Response.progressions.data.factions;
 					factions_result = "";
-					//buttons_result = "<div id=\"reload_info\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this, true)\"><p>" + langs[lang].string_refresh + "</p></div>";
 					buttons_result = "<div id=\"reload_info\" class=\"col-8 col-md-10 p-0 text-center box-shadow-2-br\" onclick=\"loadCharacterData('" + membership_type + "', '" + membership_id + "', '" + character_id + "', this, true)\"><p class=\"m-0 py-2 text-uppercase\"><span id=\"string_refresh\">" + langs[lang].string_refresh + "</span></p></div>";
 
 					if(repeat_timer){
-						//buttons_result += "<div id=\"auto_reload\" class=\"repeat_on\" onclick=\"toggleAutoReload('off')\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\">" + langs[lang].string_refresh_time + "</p>";
 						buttons_result += "<div id=\"auto_reload\" class=\"repeat_on col-3 col-md-2 p-0 text-center\" onclick=\"toggleAutoReload('off')\"><p class=\"m-0 py-2 text-uppercase\"><span id=\"string_auto_refresh\">" + langs[lang].string_auto_refresh + "</span></p></div><p id=\"interval_info\" class=\"m-0 py-1\">" + langs[lang].string_refresh_time + "</p>";
 						timer_start_time = new Date().getTime();
 						createTimeout(timer_time);
 					}else{
-						//buttons_result += "<div id=\"auto_reload\" class=\"repeat_off\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p>" + langs[lang].string_auto_refresh + "</p></div><p id=\"interval_info\" style=\"display: none;\"></p>";
 						buttons_result += "<div id=\"auto_reload\" class=\"repeat_off col-3 col-md-2 p-0 text-center\" onclick=\"toggleAutoReload('on', '" + membership_type + "', '" + membership_id + "', '" + character_id + "', this)\"><p class=\"m-0 py-2 text-uppercase\"><span id=\"string_auto_refresh\">" + langs[lang].string_auto_refresh + "</span></p></div><p id=\"interval_info\" class=\"m-0 py-1\" style=\"display: none;\">" + langs[lang].string_refresh_time + "</p>";
 					}
 
@@ -502,7 +492,6 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 					legend_level = data.Response.progressions.data.progressions["2030054750"].level;
 					legend_percentage = ((data.Response.progressions.data.progressions["2030054750"].progressToNextLevel / data.Response.progressions.data.progressions["2030054750"].nextLevelAt) * 100).toFixed(2);
 
-					//factions_result += "<div class=\"faction\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/bright_engram.png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + langs[lang].string_legend + "</p><p class=\"faction_description\">" + langs[lang].string_legend_desc + "</p><hr /><div class=\"level_progression\"><div class=\"faction_xp_extra_left\"><div class=\"level_number\">" + (legend_level) + "</div></div><div class=\"faction_xp\"><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + "\">" + data.Response.progressions.data.progressions["2030054750"].progressToNextLevel + "/" + data.Response.progressions.data.progressions["2030054750"].nextLevelAt + "</p><div class=\"xp_bar\" style=\"width: " + legend_percentage + "%;\"></div></div><div class=\"faction_xp_extra_right\"><div class=\"level_number\">" + (legend_level + 1) + "</div></div></div></div></div>";
 					factions_result += "<div class=\"faction col-12 col-md-11 col-lg-5 my-2 m-lg-3 box-shadow-2-br\"><div class=\"row\"><div class=\"img_col col-auto p-0\"><img class=\"faction_img\" src=\"img/factions/bright_engram.png\" /></div><div class=\"info_col col pb-2 text-left\"><p class=\"faction_name m-0 my-1 pl-2 font-24px font-weight-bold\">" + langs[lang].string_legend + "</p><p class=\"faction_description m-0 pl-2 font-12px font-italic\">" + langs[lang].string_legend_desc + "</p><hr /><div class=\"row font-14px\"><div class=\"level_number col-3 text-right p-0\">" + (legend_level) + "&nbsp;</div><div class=\"faction_xp col-6 p-0 border border-dark\"><div class=\"xp_bar bg_xp h-100\" style=\"width: " + legend_percentage + "%;\"></div><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + " position-absolute m-0 p-0 w-100 h-100 font-12px text-center font-weight-bold\">" + data.Response.progressions.data.progressions["2030054750"].progressToNextLevel + "/" + data.Response.progressions.data.progressions["2030054750"].nextLevelAt + "</p></div><div class=\"level_number col-3 text-left p-0\">&nbsp;" + (legend_level + 1) + "<span class=\"extra_levels font-weight-bold\">&nbsp;</span></div></div></div></div></div>";
 
 					for(faction in factions){
@@ -531,7 +520,6 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 										extra_style = " style=\"background-color: #85adad;\""
 									}
 
-									//factions_result += "<div class=\"faction" + outline_class + "\"><div class=\"img_col\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col\"><p class=\"faction_name\">" + data.name + "</p><p class=\"faction_description\">" + data.description + "</p><hr /><div class=\"level_progression\"><div class=\"faction_xp_extra_left\"><div class=\"level_number\">" + (factions[data.id].level) + "</div></div><div class=\"faction_xp\"><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + "\">" + factions[data.id].progressToNextLevel + "/" + factions[data.id].nextLevelAt + "</p><div class=\"xp_bar\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar\" style=\"width: " + remaining_experience + "%;\"></div></div><div class=\"faction_xp_extra_right\"><div class=\"level_number\">" + (factions[data.id].level + 1) + "</div><div class=\"extra_levels\">" + extra_levels + "</div></div></div></div></div>";
 									factions_result += "<div class=\"faction" + outline_class + " col-12 col-md-11 col-lg-5 my-2 m-lg-3 box-shadow-2-br\"><div class=\"row\"><div class=\"img_col col-auto p-0\"><img class=\"faction_img\" src=\"img/factions/" + data.id + ".png\" /></div><div class=\"info_col col pb-2 text-left\"><p class=\"faction_name m-0 my-1 pl-2 font-24px font-weight-bold\">" + data.name + "</p><p class=\"faction_description m-0 pl-2 font-12px font-italic\">" + data.description + "</p><hr /><div class=\"row font-14px\"><div class=\"level_number col-3 text-right p-0\">" + (factions[data.id].level) + "&nbsp;</div><div class=\"faction_xp col-6 p-0 border border-dark\"" + extra_style + "><div class=\"xp_bar bg_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + next_level_percentage + "%;\"></div><div class=\"next_xp_bar bg_next_xp h-100 d-inline-block p-0 m-0\" style=\"width: " + remaining_experience + "%;\"></div><p class=\"xp_numbers numbers_" + localStorage.show_xp_numbers + " position-absolute m-0 p-0 w-100 h-100 font-12px text-center font-weight-bold\">" + factions[data.id].progressToNextLevel + "/" + factions[data.id].nextLevelAt + "</p></div><div class=\"level_number col-3 text-left p-0\">&nbsp;" + (factions[data.id].level + 1) + "<span class=\"extra_levels font-weight-bold\">" + extra_levels + "</span></div></div><div class=\"row font-10px\"><div class=\"col text-center pt-1\">" + faction_info.getFactionMaterials(data.id) + "</div></div></div></div></div>";
 									$("#prog_factions").html(factions_result);
 								}
@@ -540,7 +528,6 @@ function loadCharacterData(membership_type, membership_id, character_id, charact
 				}
 			});
 
-			//if($(character).attr("class") == "character"){
 			if($(character).hasClass("character")){
 				$(".character").removeClass("item_outline");
 				$(character).addClass("item_outline");
@@ -614,11 +601,9 @@ function getMilestoneInfo(milestones){
 								if(milestone_info.quests[quest].displayProperties){
 									if(milestones[milestone].availableQuests[0].status.completed){
 										if(!milestones[milestone].availableQuests[0].status.redeemed){
-											//milestones_contents += "<div class=\"milestone milestone_completed\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
 											milestones_contents += "<div class=\"milestone item_outline col-12 col-md-5 col-lg-3 my-2 m-md-2 box-shadow-2-br\">" + milestone_info.quests[quest].displayProperties.name + "</div>";
 										}
 									}else{
-										//milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.quests[quest].displayProperties.name + "</p></div>";
 										milestones_contents += "<div class=\"milestone col-12 col-md-5 col-lg-3 my-2 m-md-2 box-shadow-2-br\">" + milestone_info.quests[quest].displayProperties.name + "</div>";
 									}
 								}
@@ -634,7 +619,6 @@ function getMilestoneInfo(milestones){
 							}
 
 							if(total_quests < quests_length && milestones[milestone].availableQuests[milestone_quest].questItemHash == quest && milestone_info.milestoneType > 2){
-								//milestones_contents += "<div class=\"milestone\"><p>" + milestone_info.displayProperties.name + "</p></div>";
 								milestones_contents += "<div class=\"milestone col-12 col-md-5 col-lg-3 my-2 m-md-2 box-shadow-2-br\">" + milestone_info.displayProperties.name + "</div>";
 							}
 						}
@@ -649,25 +633,6 @@ function getMilestoneInfo(milestones){
 
 function factionXP(){
 	this.populateXP = function(membership_type, membership_id){
-		/*factions_xp = {
-			  24856709: 0, //Leviathan
-			 469305170: 0, //The Nine
-			 611314723: 0, //Vanguard Tactical
-			 697030790: 0, //The Crucible
-			 828982195: 0, //Fragmented Researcher
-			1021210278: 0, //Gunsmith
-			1660497607: 0, //Exodus Black AI
-			3231773039: 0, //Vanguard Research
-			4196149087: 0, //Field Commander
-			4235119312: 0, //Dead Zone Scout
-			1714509342: 0, //Future War Cult
-			2105209711: 0, //New Monarchy
-			3398051042: 0, //Dead Orbit
-			1761642340: 0, //Iron Banner
-			2677528157: 0, //Follower of Osiris
-			3859807381: 0  //Voice of Rasputin
-		};*/
-
 		factions_xp = {
 			  24856709: {"xp": 0, "items_total": {1505278293: 0}}, //Leviathan
 			 469305170: {"xp": 0, "items_total": {885593286: 0}}, //The Nine
