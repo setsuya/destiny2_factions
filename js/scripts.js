@@ -589,7 +589,43 @@ function getMilestoneInfo(milestones){
 	data = JSON.parse(localStorage["DestinyMilestoneDefinition_" + langs[lang].id]);
 	milestones_contents = "";
 
-	for(item in data){
+	for(milestone in milestones){
+		for(item in data){
+			milestone_info = JSON.parse(data[item][1]);
+
+			if(milestone_info.hash == milestones[milestone].milestoneHash){
+				if(milestone_info.showInMilestones){
+					console.log(milestones[milestone]);
+					console.log(milestone_info);
+					console.log("Name: " + milestone_info.displayProperties.name);
+					console.log("==========");
+
+					if(milestones[milestone].availableQuests){
+						for(quest in milestone_info.quests){
+							if(milestones[milestone].availableQuests[0].questItemHash == milestone_info.quests[quest].questItemHash){
+								milestones_contents += "<div class=\"milestone col-12 col-md-5 col-lg-3 my-2 m-md-2 box-shadow-2-br\">" + milestone_info.quests[quest].displayProperties.name + "</div>";
+
+								break;
+							}
+						}
+					}
+
+					if(milestones[milestone].rewards){
+						for(reward in milestone_info.rewards){
+							if(milestones[milestone].rewards[0].rewardCategoryHash == milestone_info.rewards[reward].categoryHash){
+								milestones_contents += "<div class=\"milestone col-12 col-md-5 col-lg-3 my-2 m-md-2 box-shadow-2-br\">" + milestone_info.rewards[reward].rewardEntries[reward].displayProperties.name + "</div>";
+
+								break;
+							}
+						}
+					}
+				}
+
+				break;
+			}
+		}
+	}
+	/*for(item in data){
 		milestone_info = JSON.parse(data[item][1]);
 
 		for(milestone in milestones){
@@ -626,7 +662,7 @@ function getMilestoneInfo(milestones){
 				}
 			}
 		}
-	}
+	}*/
 
 	$("#milestone_list").html(milestones_contents);
 }
